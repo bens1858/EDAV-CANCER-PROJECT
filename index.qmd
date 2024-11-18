@@ -4,5 +4,6 @@ Cancer is a broad term for a variety of diseases that arise from abnormal growth
 
 We chose this topic because we are interested in investigating the cancer rates and healthcare policies around the world and by U.S. state and potential trends that reveal more about cancer diagnosis and treatment. We want to explore who is most affected by cancer (i.e. genders, ages, races, and countries) and whether the governments’ policies on healthcare expenditures and/or health insurance systems play a role in positive or negative outcomes. We aim to explore how cancer rates differ by demographic group and by country (and state). We also plan to explore whether both cancer rates and cancer mortality rates appear associated with different amounts of healthcare spending, the number of physicians operating in a country, and potentially even rates of insurance coverage within the population.
 
-Sources: https://www.who.int/news-room/fact-sheets/detail/cancer
-https://www.who.int/news/item/01-02-2024-global-cancer-burden-growing--amidst-mounting-need-for-services#:~:text=In%202022%2C%20there%20were%20an%20estimated%2020%20million,1%20in%2012%20women%20die%20from%20the%20disease
+Sources:
+[WHO Cancer Fact Sheet] (https://www.who.int/news-room/fact-sheets/detail/cancer)
+[WHO Article: Cancer Burden Growing] (https://www.who.int/news/item/01-02-2024-global-cancer-burden-growing--amidst-mounting-need-for-services#:~:text=In%202022%2C%20there%20were%20an%20estimated%2020%20million,1%20in%2012%20women%20die%20from%20the%20disease)
