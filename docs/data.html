@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Data – EDAV-CANCER-PROJECT</title>
+<title>EDAV-CANCER-PROJECT - 2&nbsp; Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -112,13 +112,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -212,9 +212,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="description" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="description"><span class="header-section-number">2.1</span> Description</h2>
-<p>This is the United Nations website. The data look at how much countries spend on healthcare as a percentage of GDP and total government expenditure in the years 2005, 2010, 2015, 2018, 2019, and 2020. The data are collected by the World Health Organization and reviewed annually using government expenditure records and official statistics. The WHO makes modifications and estimates when needed to ensure consistency and comprehensiveness. Some potential issues with this data involve differences in reporting standards for different countries. Some countries use a calendar year for their reports while others use fiscal years that start on many different days throughout the year depending on the country. The data are posted by the United Nations and was most recently updated on October 25, 2023 using data that was pulled in April 2023. The data are in csv format and have 2,262 rows and 7 columns. It will be imported into R as a csv file. <a href="http://data.un.org/_Docs/SYB/PDFs/SYB66_325_202310_Expenditure%20on%20health.pdf">Link to data.</a></p>
-<p>This is the United Nations website. This data captures the raw number of physicians, nurses, dentists, and pharmacists operating in each country between the years 2000 and 2021. It also records the number of people working in these occupations per 1000 people in each country. The data is collected by the World Health Organization (WHO) from a combination of national reporting, national censuses, labor force surveys, and administrative and national sources. The definition of a health worker occupation is classified according to the definition of the International Standard Classification of Occupations. The dataset is not without complications. Given the disparate reporting methods of countries around the world, different countries report data for different years, and there is not a single year between 2000 and 2021 for which every country has reported data. Moreover, there is no single way that countries report or calculate this data, so different countries will be arriving at their estimates in different ways. The dataset was posted by the United Nations and was last updated on October 25, 2023, with data last being pulled in April 2023. The data comes as a csv file and has 5,884 rows and 7 columns. It will be imported to R as a csv. <a href="http://data.un.org/_Docs/SYB/PDFs/SYB66_154_202310_Health%20Personnel.pdf">Link to data.</a></p>
-<p>This data reports the incidence rates and mortality rates of cancer by country in 2022. It is collected by the World Health Organization and reported through the Global Cancer Observatory. The data is collected differently depending on the country. Some countries have national counts. Other countries have sub-national counts, and other countries do not have data so the WHO uses models to make estimates. This could pose some problems with analysis because the numbers for different countries are based on different methods of calculation. In some cases, the WHO extrapolates the data of a city or subregion within the country to the overall country. In other cases, the WHO looks at rates in neighboring countries and applies those rates to the population of a country. Alternatively, they create models to estimate the prevalence and mortality rates. Because of the mix in raw data vs modeling data, it may not be comparing apples to apples in every country, but the WHO is the leading organization for this type of work and their numbers are probably the best that are possible to find. Both the incidence and mortality datasets have 13 columns and 186 rows. They are both csv files and will be imported into R as a csv. <a href="https://gco.iarc.who.int/today/en/dataviz/tables?mode=population&amp;populations=100_104_108_112_116_12_120_124_132_140_144_148_152_160_170_174_178_180_188_191_192_196_203_204_208_214_218_222_226_231_232_233_24_242_246_250_254_258_262_266_268_270_275_276_288_300_31_312_316_32_320_324_328_332_340_348_352_356_36_360_364_368_372_376_380_384_388_392_398_4_40_400_404_408_410_414_417_418_422_426_428_430_434_44_440_442_450_454_458_462_466_470_474_478_48_480_484_496_498_499_50_504_508_51_512_516_52_524_528_540_548_554_558_56_562_566_578_586_591_598_600_604_608_616_620_624_626_630_634_638_64_642_643_646_662_678_68_682_686_688_694_70_702_703_704_705_706_710_716_72_724_728_729_740_748_752_756_76_760_762_764_768_780_784_788_792_795_8_800_804_807_818_826_834_84_840_854_858_860_862_882_887_894_90_96&amp;multiple_populations=1">Link to incidence data.</a> <a href="https://gco.iarc.who.int/today/en/dataviz/tables?mode=population&amp;populations=100_104_108_112_116_12_120_124_132_140_144_148_152_160_170_174_178_180_188_191_192_196_203_204_208_214_218_222_226_231_232_233_24_242_246_250_254_258_262_266_268_270_275_276_288_300_31_312_316_32_320_324_328_332_340_348_352_356_36_360_364_368_372_376_380_384_388_392_398_4_40_400_404_408_410_414_417_418_422_426_428_430_434_44_440_442_450_454_458_462_466_470_474_478_48_480_484_496_498_499_50_504_508_51_512_516_52_524_528_540_548_554_558_56_562_566_578_586_591_598_600_604_608_616_620_624_626_630_634_638_64_642_643_646_662_678_68_682_686_688_694_70_702_703_704_705_706_710_716_72_724_728_729_740_748_752_756_76_760_762_764_768_780_784_788_792_795_8_800_804_807_818_826_834_84_840_854_858_860_862_882_887_894_90_96&amp;multiple_populations=1&amp;types=1">Link to mortality data.</a></p>
+<p>UN/WHO Data on Health Expenditure by Country</p>
+<p>This is from the United Nations website. The data look at how much countries spend on healthcare as a percentage of GDP and total government expenditure in the years 2005, 2010, 2015, 2018, 2019, and 2020. The data are collected by the World Health Organization (WHO) and reviewed annually using government expenditure records and official statistics. The WHO makes modifications and estimates when needed to ensure consistency and comprehensiveness. Some potential issues with this data involve differences in reporting standards for different countries. Some countries use a calendar year for their reports while others use fiscal years that start on many different days throughout the year depending on the country. The data are posted by the United Nations and was most recently updated on October 25, 2023 using data that was pulled in April 2023. The data are in csv format and have 2,262 rows and 7 columns. It will be imported into R as a csv file. <a href="http://data.un.org/_Docs/SYB/PDFs/SYB66_325_202310_Expenditure%20on%20health.pdf">Link to data.</a></p>
+<p>UN/WHO Data on Health Personnel by Country</p>
+<p>This is also from the United Nations website. This data captures the raw number of physicians, nurses, dentists, and pharmacists operating in each country between the years 2000 and 2021. It also records the number of people working in these occupations per 1000 people in each country. The data is collected by the WHO from a combination of national reporting, national censuses, labor force surveys, and administrative and national sources. The definition of a health worker occupation is classified according to the definition of the International Standard Classification of Occupations. The dataset is not without complications. Given the disparate reporting methods of countries around the world, different countries report data for different years, and there is not a single year between 2000 and 2021 for which every country has reported data. Moreover, there is no single way that countries report or calculate this data, so different countries will be arriving at their estimates in different ways. The dataset was posted by the United Nations and was last updated on October 25, 2023, with data last being pulled in April 2023. The data comes as a csv file and has 5,884 rows and 7 columns. It will be imported to R as a csv. <a href="http://data.un.org/_Docs/SYB/PDFs/SYB66_154_202310_Health%20Personnel.pdf">Link to data.</a></p>
+<p>WHO/GCO Data on Cancer Incidence and Mortality by Country</p>
+<p>These datasets report the incidence rates and mortality rates of cancer by country in 2022. It is collected by the WHO and reported through the Global Cancer Observatory (GCO). The data are collected differently depending on the country. Some countries have national counts. Other countries have sub-national counts, and other countries do not have data so the WHO uses models to make estimates. This could pose some problems with analysis because the numbers for different countries are based on different methods of calculation. In some cases, the WHO extrapolates the data of a city or sub-region within the country to the overall country. In other cases, the WHO looks at rates in neighboring countries and applies those rates to the population of a country. Alternatively, they create models to estimate the prevalence and mortality rates. Because of the mix in raw data vs modeling data, it may not be comparing apples to apples in every country, but the WHO is the leading organization for this type of work and their numbers are probably the best that are possible to find. Both the incidence and mortality datasets have 13 columns and 186 rows. They are both csv files and will be imported into R as a csv. <a href="https://gco.iarc.who.int/today/en/dataviz/tables?mode=population&amp;populations=100_104_108_112_116_12_120_124_132_140_144_148_152_160_170_174_178_180_188_191_192_196_203_204_208_214_218_222_226_231_232_233_24_242_246_250_254_258_262_266_268_270_275_276_288_300_31_312_316_32_320_324_328_332_340_348_352_356_36_360_364_368_372_376_380_384_388_392_398_4_40_400_404_408_410_414_417_418_422_426_428_430_434_44_440_442_450_454_458_462_466_470_474_478_48_480_484_496_498_499_50_504_508_51_512_516_52_524_528_540_548_554_558_56_562_566_578_586_591_598_600_604_608_616_620_624_626_630_634_638_64_642_643_646_662_678_68_682_686_688_694_70_702_703_704_705_706_710_716_72_724_728_729_740_748_752_756_76_760_762_764_768_780_784_788_792_795_8_800_804_807_818_826_834_84_840_854_858_860_862_882_887_894_90_96&amp;multiple_populations=1">Link to incidence data.</a> <a href="https://gco.iarc.who.int/today/en/dataviz/tables?mode=population&amp;populations=100_104_108_112_116_12_120_124_132_140_144_148_152_160_170_174_178_180_188_191_192_196_203_204_208_214_218_222_226_231_232_233_24_242_246_250_254_258_262_266_268_270_275_276_288_300_31_312_316_32_320_324_328_332_340_348_352_356_36_360_364_368_372_376_380_384_388_392_398_4_40_400_404_408_410_414_417_418_422_426_428_430_434_44_440_442_450_454_458_462_466_470_474_478_48_480_484_496_498_499_50_504_508_51_512_516_52_524_528_540_548_554_558_56_562_566_578_586_591_598_600_604_608_616_620_624_626_630_634_638_64_642_643_646_662_678_68_682_686_688_694_70_702_703_704_705_706_710_716_72_724_728_729_740_748_752_756_76_760_762_764_768_780_784_788_792_795_8_800_804_807_818_826_834_84_840_854_858_860_862_882_887_894_90_96&amp;multiple_populations=1&amp;types=1">Link to mortality data.</a></p>
 <p>National Center for Health Statistics - Percent Cancer Estimate for Demographics</p>
 <p>This website is the National Center for Health Statistics website. This source collects data from the following source: the CDC’s National Health Interview Survey (NHIS). The CDC selects survey participants yearly and attempts to survey them via telephone or in person via representative.The CDC conducts the survey. Survey responses are conducted via telephone or in person by a census bureau representative. The data is in a csv file and is imported into R. The data is a percentage of the group represented in the tab. Based on the website, the survey is completed yearly and there are results for each year from 2019-2023. The dimensions of this data in R is a data frame of 380 rows by 5 total columns.To import the data, each individual parameter should be downloaded as a csv file from the website for this data set. Then, each csv file should be read into R using read_csv from the tidyverse package. The data should then be merged together using full_join and join_by = (Year,Group,Subgroup,Estimate,Flag).</p>
 <p>Link: <a href="https://nchsdata.cdc.gov/DQS/#nchs-home_any-type-of-cancer/-/employment-status/all-time-periods/2">NCHS Cancer Data</a></p>
@@ -227,46 +230,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'dplyr'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:stats':
-
-    filter, lag</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(un_health_personnel, "un_health_personnel.csv")</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>un_health_personnel <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"un_health_personnel.csv"</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>un_health_personnel <span class="sc">|&gt;</span> </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Series <span class="sc">==</span> <span class="st">"Health personnel: Physicians (number)"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">|&gt;</span> </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count=</span><span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">missing_percent =</span> <span class="dv">100</span> <span class="sc">-</span> (((count)<span class="sc">/</span><span class="fu">n_distinct</span>(un_health_personnel<span class="sc">$</span>Region.Country.Area))<span class="sc">*</span><span class="dv">100</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="ot">-&gt;</span> un_health_personnel_number_summary</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> un_health_personnel_number_summary, <span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span>, <span class="at">y=</span><span class="fu">as.factor</span>(Year)))<span class="sc">+</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>missing_percent))<span class="sc">+</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Year"</span>, <span class="at">fill =</span> <span class="st">"% of Countries</span><span class="sc">\n</span><span class="st"> without Data"</span>, <span class="at">title =</span> <span class="st">"Missing Physician Data by Year"</span>)<span class="sc">+</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_distiller</span>(<span class="at">palette =</span> <span class="st">"Reds"</span>, <span class="at">direction =</span> <span class="dv">1</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>))<span class="sc">+</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(un_health_personnel, "un_health_personnel.csv")</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>un_health_personnel <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"un_health_personnel.csv"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>un_health_personnel <span class="sc">|&gt;</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Series <span class="sc">==</span> <span class="st">"Health personnel: Physicians (number)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">|&gt;</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count=</span><span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">missing_percent =</span> <span class="dv">100</span> <span class="sc">-</span> (((count)<span class="sc">/</span><span class="fu">n_distinct</span>(un_health_personnel<span class="sc">$</span>Region.Country.Area))<span class="sc">*</span><span class="dv">100</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="ot">-&gt;</span> un_health_personnel_number_summary</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> un_health_personnel_number_summary, <span class="fu">aes</span>(<span class="at">x=</span><span class="dv">1</span>, <span class="at">y=</span><span class="fu">as.factor</span>(Year)))<span class="sc">+</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>missing_percent))<span class="sc">+</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Year"</span>, <span class="at">fill =</span> <span class="st">"% of Countries</span><span class="sc">\n</span><span class="st"> without Data"</span>, <span class="at">title =</span> <span class="st">"Missing Physician Data by Year"</span>)<span class="sc">+</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_distiller</span>(<span class="at">palette =</span> <span class="st">"Reds"</span>, <span class="at">direction =</span> <span class="dv">1</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>))<span class="sc">+</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -281,16 +267,16 @@ Attaching package: 'dplyr'</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>OperationalPolicy <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"OperationalPolicy.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Counts <span class="ot">&lt;-</span> OperationalPolicy <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Value,Period) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Value =</span><span class="fu">factor</span>(Value))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Counts, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">fct_reorder</span>(Value,count, <span class="at">.desc=</span><span class="cn">TRUE</span>), <span class="at">y =</span> count, <span class="at">fill =</span> <span class="st">"red"</span>)) <span class="sc">+</span> </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Value From Survey"</span>, <span class="at">y =</span> <span class="st">"Count"</span>, <span class="at">title =</span> <span class="st">"Count of Recorded Responses"</span>)<span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>,<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>,<span class="at">hjust=</span><span class="dv">1</span>,<span class="at">size=</span><span class="dv">8</span>))<span class="sc">+</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Period)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>OperationalPolicy <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"OperationalPolicy.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Counts <span class="ot">&lt;-</span> OperationalPolicy <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Value,Period) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Value =</span><span class="fu">factor</span>(Value))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Counts, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">fct_reorder</span>(Value,count, <span class="at">.desc=</span><span class="cn">TRUE</span>), <span class="at">y =</span> count, <span class="at">fill =</span> <span class="st">"red"</span>)) <span class="sc">+</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Value From Survey"</span>, <span class="at">y =</span> <span class="st">"Count"</span>, <span class="at">title =</span> <span class="st">"Count of Recorded Responses"</span>)<span class="sc">+</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>,<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>,<span class="at">hjust=</span><span class="dv">1</span>,<span class="at">size=</span><span class="dv">8</span>))<span class="sc">+</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Period)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -341,7 +327,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -373,29 +370,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -403,7 +378,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
