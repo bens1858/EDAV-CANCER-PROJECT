@@ -1,0 +1,381 @@
+Group,Subgroup,Year,Flag,Estimate
+Age groups with 65 years and older,18-34 years,2019,N/A,1.3
+Age groups with 65 years and older,18-34 years,2020,N/A,0.8
+Age groups with 65 years and older,18-34 years,2021,N/A,1.3
+Age groups with 65 years and older,18-34 years,2022,N/A,1
+Age groups with 65 years and older,18-34 years,2023,N/A,0.8
+Age groups with 65 years and older,35-49 years,2019,N/A,4.2
+Age groups with 65 years and older,35-49 years,2020,N/A,4.7
+Age groups with 65 years and older,35-49 years,2021,N/A,4.2
+Age groups with 65 years and older,35-49 years,2022,N/A,3.6
+Age groups with 65 years and older,35-49 years,2023,N/A,4.4
+Age groups with 65 years and older,50-64 years,2019,N/A,11
+Age groups with 65 years and older,50-64 years,2020,N/A,11
+Age groups with 65 years and older,50-64 years,2021,N/A,10.7
+Age groups with 65 years and older,50-64 years,2022,N/A,11.1
+Age groups with 65 years and older,50-64 years,2023,N/A,11
+Age groups with 65 years and older,65 years and older,2019,N/A,25.4
+Age groups with 65 years and older,65 years and older,2020,N/A,25.7
+Age groups with 65 years and older,65 years and older,2021,N/A,26
+Age groups with 65 years and older,65 years and older,2022,N/A,25.8
+Age groups with 65 years and older,65 years and older,2023,N/A,25.5
+Age groups with 75 years and older,18-44 years,2019,N/A,2
+Age groups with 75 years and older,18-44 years,2020,N/A,1.9
+Age groups with 75 years and older,18-44 years,2021,N/A,2.2
+Age groups with 75 years and older,18-44 years,2022,N/A,1.8
+Age groups with 75 years and older,18-44 years,2023,N/A,2
+Age groups with 75 years and older,45-64 years,2019,N/A,9.7
+Age groups with 75 years and older,45-64 years,2020,N/A,9.8
+Age groups with 75 years and older,45-64 years,2021,N/A,9.4
+Age groups with 75 years and older,45-64 years,2022,N/A,9.4
+Age groups with 75 years and older,45-64 years,2023,N/A,9.7
+Age groups with 75 years and older,65-74 years,2019,N/A,21.7
+Age groups with 75 years and older,65-74 years,2020,N/A,21.3
+Age groups with 75 years and older,65-74 years,2021,N/A,22.7
+Age groups with 75 years and older,65-74 years,2022,N/A,22
+Age groups with 75 years and older,65-74 years,2023,N/A,20.6
+Age groups with 75 years and older,75 years and older,2019,N/A,30.7
+Age groups with 75 years and older,75 years and older,2020,N/A,32.1
+Age groups with 75 years and older,75 years and older,2021,N/A,30.9
+Age groups with 75 years and older,75 years and older,2022,N/A,31.3
+Age groups with 75 years and older,75 years and older,2023,N/A,32.6
+Disability status,With disability,2019,N/A,19.3
+Disability status,With disability,2020,N/A,19.7
+Disability status,With disability,2021,N/A,19.6
+Disability status,With disability,2022,N/A,19.4
+Disability status,With disability,2023,N/A,18
+Disability status,Without disability,2019,N/A,8.5
+Disability status,Without disability,2020,N/A,8.7
+Disability status,Without disability,2021,N/A,8.8
+Disability status,Without disability,2022,N/A,8.6
+Disability status,Without disability,2023,N/A,8.8
+Education,No high school diploma or GED,2019,N/A,10.1
+Education,No high school diploma or GED,2020,N/A,9.8
+Education,No high school diploma or GED,2021,N/A,9.5
+Education,No high school diploma or GED,2022,N/A,8.1
+Education,No high school diploma or GED,2023,N/A,9.2
+Education,High school diploma or GED,2019,N/A,10.2
+Education,High school diploma or GED,2020,N/A,11.4
+Education,High school diploma or GED,2021,N/A,10.2
+Education,High school diploma or GED,2022,N/A,10.2
+Education,High school diploma or GED,2023,N/A,10.7
+Education,Some college,2019,N/A,11.2
+Education,Some college,2020,N/A,11.1
+Education,Some college,2021,N/A,11.9
+Education,Some college,2022,N/A,11.9
+Education,Some college,2023,N/A,11.7
+Education,College degree or higher,2019,N/A,10.8
+Education,College degree or higher,2020,N/A,10.7
+Education,College degree or higher,2021,N/A,11.3
+Education,College degree or higher,2022,N/A,11.1
+Education,College degree or higher,2023,N/A,11.1
+Employment status,Employed,2019,N/A,5.4
+Employment status,Employed,2020,N/A,5.4
+Employment status,Employed,2021,N/A,5.7
+Employment status,Employed,2022,N/A,5.4
+Employment status,Employed,2023,N/A,5.6
+Employment status,Full-time,2019,N/A,5
+Employment status,Full-time,2020,N/A,5
+Employment status,Full-time,2021,N/A,5.2
+Employment status,Full-time,2022,N/A,4.8
+Employment status,Full-time,2023,N/A,5.1
+Employment status,Part-time,2019,N/A,7
+Employment status,Part-time,2020,N/A,7.4
+Employment status,Part-time,2021,N/A,7.7
+Employment status,Part-time,2022,N/A,7.6
+Employment status,Part-time,2023,N/A,7.7
+Employment status,Not employed,2019,N/A,17
+Employment status,Not employed,2020,N/A,16.4
+Employment status,Not employed,2021,N/A,16.7
+Employment status,Not employed,2022,N/A,17.2
+Employment status,Not employed,2023,N/A,17.1
+Employment status,Not employed but has worked previously,2019,N/A,18.2
+Employment status,Not employed but has worked previously,2020,N/A,17.3
+Employment status,Not employed but has worked previously,2021,N/A,17.6
+Employment status,Not employed but has worked previously,2022,N/A,18.1
+Employment status,Not employed but has worked previously,2023,N/A,18.1
+Employment status,Not employed and has never worked,2019,N/A,4.7
+Employment status,Not employed and has never worked,2020,N/A,3.8
+Employment status,Not employed and has never worked,2021,N/A,4
+Employment status,Not employed and has never worked,2022,N/A,3.8
+Employment status,Not employed and has never worked,2023,N/A,4.6
+Health insurance coverage: 65 years and older,Private,2019,N/A,28
+Health insurance coverage: 65 years and older,Private,2020,N/A,27.7
+Health insurance coverage: 65 years and older,Private,2021,N/A,28.6
+Health insurance coverage: 65 years and older,Private,2022,N/A,28.5
+Health insurance coverage: 65 years and older,Private,2023,N/A,27.4
+Health insurance coverage: 65 years and older,Medicare and Medicaid,2019,N/A,17.5
+Health insurance coverage: 65 years and older,Medicare and Medicaid,2020,N/A,18.5
+Health insurance coverage: 65 years and older,Medicare and Medicaid,2021,N/A,17.2
+Health insurance coverage: 65 years and older,Medicare and Medicaid,2022,N/A,17.2
+Health insurance coverage: 65 years and older,Medicare and Medicaid,2023,N/A,17
+Health insurance coverage: 65 years and older,Medicare Advantage,2019,N/A,25.8
+Health insurance coverage: 65 years and older,Medicare Advantage,2020,N/A,25.8
+Health insurance coverage: 65 years and older,Medicare Advantage,2021,N/A,26
+Health insurance coverage: 65 years and older,Medicare Advantage,2022,N/A,25.7
+Health insurance coverage: 65 years and older,Medicare Advantage,2023,N/A,26.4
+Health insurance coverage: 65 years and older,Medicare only (no Advantage),2019,N/A,20.4
+Health insurance coverage: 65 years and older,Medicare only (no Advantage),2020,N/A,21.1
+Health insurance coverage: 65 years and older,Medicare only (no Advantage),2021,N/A,22.4
+Health insurance coverage: 65 years and older,Medicare only (no Advantage),2022,N/A,24
+Health insurance coverage: 65 years and older,Medicare only (no Advantage),2023,N/A,21.1
+Health insurance coverage: 65 years and older,Other coverage,2019,N/A,28.7
+Health insurance coverage: 65 years and older,Other coverage,2020,N/A,31.2
+Health insurance coverage: 65 years and older,Other coverage,2021,N/A,29.4
+Health insurance coverage: 65 years and older,Other coverage,2022,N/A,26.1
+Health insurance coverage: 65 years and older,Other coverage,2023,N/A,29.8
+Health insurance coverage: 65 years and older,Uninsured,2019,*,N/A
+Health insurance coverage: 65 years and older,Uninsured,2020,*,N/A
+Health insurance coverage: 65 years and older,Uninsured,2021,*,N/A
+Health insurance coverage: 65 years and older,Uninsured,2022,*,N/A
+Health insurance coverage: 65 years and older,Uninsured,2023,*,N/A
+Health insurance coverage: Younger than 65 years,Private,2019,N/A,5.1
+Health insurance coverage: Younger than 65 years,Private,2020,N/A,5.2
+Health insurance coverage: Younger than 65 years,Private,2021,N/A,5
+Health insurance coverage: Younger than 65 years,Private,2022,N/A,5.1
+Health insurance coverage: Younger than 65 years,Private,2023,N/A,5.3
+Health insurance coverage: Younger than 65 years,Medicaid or other public,2019,N/A,6
+Health insurance coverage: Younger than 65 years,Medicaid or other public,2020,N/A,4.4
+Health insurance coverage: Younger than 65 years,Medicaid or other public,2021,N/A,5.2
+Health insurance coverage: Younger than 65 years,Medicaid or other public,2022,N/A,4.4
+Health insurance coverage: Younger than 65 years,Medicaid or other public,2023,N/A,4.7
+Health insurance coverage: Younger than 65 years,Other coverage,2019,N/A,7.7
+Health insurance coverage: Younger than 65 years,Other coverage,2020,N/A,8
+Health insurance coverage: Younger than 65 years,Other coverage,2021,N/A,8.7
+Health insurance coverage: Younger than 65 years,Other coverage,2022,N/A,9
+Health insurance coverage: Younger than 65 years,Other coverage,2023,N/A,7.5
+Health insurance coverage: Younger than 65 years,Uninsured,2019,N/A,2.9
+Health insurance coverage: Younger than 65 years,Uninsured,2020,N/A,3.4
+Health insurance coverage: Younger than 65 years,Uninsured,2021,N/A,2.4
+Health insurance coverage: Younger than 65 years,Uninsured,2022,N/A,1.8
+Health insurance coverage: Younger than 65 years,Uninsured,2023,N/A,1.8
+Marital status,Married,2019,N/A,10.9
+Marital status,Married,2020,N/A,11.5
+Marital status,Married,2021,N/A,11.5
+Marital status,Married,2022,N/A,11.2
+Marital status,Married,2023,N/A,11.6
+Marital status,Divorced or separated,2019,N/A,12.2
+Marital status,Divorced or separated,2020,N/A,11.8
+Marital status,Divorced or separated,2021,N/A,13.8
+Marital status,Divorced or separated,2022,N/A,13.3
+Marital status,Divorced or separated,2023,N/A,12.3
+Marital status,Widowed,2019,N/A,23.9
+Marital status,Widowed,2020,N/A,23.4
+Marital status,Widowed,2021,N/A,23.3
+Marital status,Widowed,2022,N/A,22.9
+Marital status,Widowed,2023,N/A,25.1
+Marital status,Living with a partner,2019,N/A,5.8
+Marital status,Living with a partner,2020,N/A,4.8
+Marital status,Living with a partner,2021,N/A,4.9
+Marital status,Living with a partner,2022,N/A,5.8
+Marital status,Living with a partner,2023,N/A,3.8
+Marital status,Never married,2019,N/A,2.8
+Marital status,Never married,2020,N/A,2.8
+Marital status,Never married,2021,N/A,3.2
+Marital status,Never married,2022,N/A,3
+Marital status,Never married,2023,N/A,3.3
+Metropolitan statistical area,Large MSA,2019,N/A,8.5
+Metropolitan statistical area,Large MSA,2020,N/A,8.6
+Metropolitan statistical area,Large MSA,2021,N/A,8.7
+Metropolitan statistical area,Large MSA,2022,N/A,8.3
+Metropolitan statistical area,Large MSA,2023,N/A,8.6
+Metropolitan statistical area,Small MSA,2019,N/A,10.2
+Metropolitan statistical area,Small MSA,2020,N/A,10.1
+Metropolitan statistical area,Small MSA,2021,N/A,10.8
+Metropolitan statistical area,Small MSA,2022,N/A,11.1
+Metropolitan statistical area,Small MSA,2023,N/A,10.4
+Metropolitan statistical area,Non-MSA,2019,N/A,12
+Metropolitan statistical area,Non-MSA,2020,N/A,12.8
+Metropolitan statistical area,Non-MSA,2021,N/A,11.8
+Metropolitan statistical area,Non-MSA,2022,N/A,11.3
+Metropolitan statistical area,Non-MSA,2023,N/A,12.5
+Nativity,U.S.-born,2019,N/A,10.7
+Nativity,U.S.-born,2020,N/A,10.8
+Nativity,U.S.-born,2021,N/A,11
+Nativity,U.S.-born,2022,N/A,10.8
+Nativity,U.S.-born,2023,N/A,10.9
+Nativity,Foreign-born,2019,N/A,4.5
+Nativity,Foreign-born,2020,N/A,4.4
+Nativity,Foreign-born,2021,N/A,4.5
+Nativity,Foreign-born,2022,N/A,4.6
+Nativity,Foreign-born,2023,N/A,4.8
+Poverty level,<100% FPL,2019,N/A,7.5
+Poverty level,<100% FPL,2020,N/A,7.3
+Poverty level,<100% FPL,2021,N/A,6.7
+Poverty level,<100% FPL,2022,N/A,7.7
+Poverty level,<100% FPL,2023,N/A,7.4
+Poverty level,100% to <200% FPL,2019,N/A,9
+Poverty level,100% to <200% FPL,2020,N/A,9.6
+Poverty level,100% to <200% FPL,2021,N/A,8.8
+Poverty level,100% to <200% FPL,2022,N/A,8.4
+Poverty level,100% to <200% FPL,2023,N/A,8.9
+Poverty level,≥200% FPL,2019,N/A,9.9
+Poverty level,≥200% FPL,2020,N/A,10
+Poverty level,≥200% FPL,2021,N/A,10.4
+Poverty level,≥200% FPL,2022,N/A,10.1
+Poverty level,≥200% FPL,2023,N/A,10.2
+Race,American Indian and Alaska Native only,2019,N/A,8.8
+Race,American Indian and Alaska Native only,2020,N/A,6
+Race,American Indian and Alaska Native only,2021,*,N/A
+Race,American Indian and Alaska Native only,2022,*,N/A
+Race,American Indian and Alaska Native only,2023,N/A,4.5
+Race,Asian only,2019,N/A,2.5
+Race,Asian only,2020,N/A,2.9
+Race,Asian only,2021,N/A,3.4
+Race,Asian only,2022,N/A,3.3
+Race,Asian only,2023,N/A,3.5
+Race,Black only,2019,N/A,5.1
+Race,Black only,2020,N/A,5.3
+Race,Black only,2021,N/A,5.3
+Race,Black only,2022,N/A,4.4
+Race,Black only,2023,N/A,5.7
+Race,Native Hawaiian or Other Pacific Islander only,2019,*,N/A
+Race,Native Hawaiian or Other Pacific Islander only,2020,*,N/A
+Race,Native Hawaiian or Other Pacific Islander only,2021,*,N/A
+Race,Native Hawaiian or Other Pacific Islander only,2022,*,N/A
+Race,Native Hawaiian or Other Pacific Islander only,2023,*,N/A
+Race,White only,2019,N/A,11.4
+Race,White only,2020,N/A,11.7
+Race,White only,2021,N/A,11.7
+Race,White only,2022,N/A,11.7
+Race,White only,2023,N/A,11.7
+Race,American Indian and Alaska Native and White,2019,N/A,15.6
+Race,American Indian and Alaska Native and White,2020,N/A,8.1
+Race,American Indian and Alaska Native and White,2021,N/A,12.4
+Race,American Indian and Alaska Native and White,2022,N/A,11.7
+Race,American Indian and Alaska Native and White,2023,N/A,10.6
+Race,Black and White,2019,*,N/A
+Race,Black and White,2020,*,N/A
+Race,Black and White,2021,*,N/A
+Race,Black and White,2022,*,N/A
+Race,Black and White,2023,*,N/A
+Race and Hispanic origin,All races Hispanic,2019,N/A,4.1
+Race and Hispanic origin,All races Hispanic,2020,N/A,4
+Race and Hispanic origin,All races Hispanic,2021,N/A,3.6
+Race and Hispanic origin,All races Hispanic,2022,N/A,3.6
+Race and Hispanic origin,All races Hispanic,2023,N/A,3.7
+Race and Hispanic origin,All races Hispanic Mexican,2019,N/A,3.5
+Race and Hispanic origin,All races Hispanic Mexican,2020,N/A,3
+Race and Hispanic origin,All races Hispanic Mexican,2021,N/A,2.7
+Race and Hispanic origin,All races Hispanic Mexican,2022,N/A,3.4
+Race and Hispanic origin,All races Hispanic Mexican,2023,N/A,2.9
+Race and Hispanic origin,All races non-Hispanic,2019,N/A,10.6
+Race and Hispanic origin,All races non-Hispanic,2020,N/A,10.8
+Race and Hispanic origin,All races non-Hispanic,2021,N/A,11
+Race and Hispanic origin,All races non-Hispanic,2022,N/A,10.8
+Race and Hispanic origin,All races non-Hispanic,2023,N/A,11
+Race and Hispanic origin,Black only non-Hispanic,2019,N/A,5
+Race and Hispanic origin,Black only non-Hispanic,2020,N/A,5.3
+Race and Hispanic origin,Black only non-Hispanic,2021,N/A,5.5
+Race and Hispanic origin,Black only non-Hispanic,2022,N/A,4.5
+Race and Hispanic origin,Black only non-Hispanic,2023,N/A,5.7
+Race and Hispanic origin,White only non-Hispanic,2019,N/A,12.4
+Race and Hispanic origin,White only non-Hispanic,2020,N/A,12.8
+Race and Hispanic origin,White only non-Hispanic,2021,N/A,13
+Race and Hispanic origin,White only non-Hispanic,2022,N/A,13
+Race and Hispanic origin,White only non-Hispanic,2023,N/A,13
+Race and Hispanic origin,Other races non-Hispanic,2019,N/A,4.2
+Race and Hispanic origin,Other races non-Hispanic,2020,N/A,3.8
+Race and Hispanic origin,Other races non-Hispanic,2021,N/A,4.4
+Race and Hispanic origin,Other races non-Hispanic,2022,N/A,4.2
+Race and Hispanic origin,Other races non-Hispanic,2023,N/A,4.1
+Region,Northeast,2019,N/A,9.8
+Region,Northeast,2020,N/A,9.5
+Region,Northeast,2021,N/A,10.3
+Region,Northeast,2022,N/A,8.9
+Region,Northeast,2023,N/A,9.5
+Region,Midwest,2019,N/A,10
+Region,Midwest,2020,N/A,10.3
+Region,Midwest,2021,N/A,9.8
+Region,Midwest,2022,N/A,10.5
+Region,Midwest,2023,N/A,11.3
+Region,South,2019,N/A,9.7
+Region,South,2020,N/A,10.1
+Region,South,2021,N/A,9.8
+Region,South,2022,N/A,9.3
+Region,South,2023,N/A,9.5
+Region,West,2019,N/A,8.4
+Region,West,2020,N/A,8.4
+Region,West,2021,N/A,9.3
+Region,West,2022,N/A,9.7
+Region,West,2023,N/A,8.8
+Sex,Female,2019,N/A,10.3
+Sex,Female,2020,N/A,10.5
+Sex,Female,2021,N/A,10.5
+Sex,Female,2022,N/A,10.4
+Sex,Female,2023,N/A,10.4
+Sex,Male,2019,N/A,8.7
+Sex,Male,2020,N/A,8.7
+Sex,Male,2021,N/A,9
+Sex,Male,2022,N/A,8.6
+Sex,Male,2023,N/A,9
+Sexual orientation,Bisexual,2019,N/A,6.4
+Sexual orientation,Bisexual,2020,N/A,4.7
+Sexual orientation,Bisexual,2021,N/A,5.8
+Sexual orientation,Bisexual,2022,N/A,3.7
+Sexual orientation,Bisexual,2023,N/A,4.3
+Sexual orientation,Gay/lesbian,2019,N/A,7.3
+Sexual orientation,Gay/lesbian,2020,N/A,7
+Sexual orientation,Gay/lesbian,2021,N/A,6
+Sexual orientation,Gay/lesbian,2022,N/A,8.5
+Sexual orientation,Gay/lesbian,2023,N/A,8.5
+Sexual orientation,Straight,2019,N/A,9.6
+Sexual orientation,Straight,2020,N/A,9.8
+Sexual orientation,Straight,2021,N/A,10.1
+Sexual orientation,Straight,2022,N/A,9.9
+Sexual orientation,Straight,2023,N/A,10
+Social vulnerability,Little to no social vulnerability,2019,N/A,11.1
+Social vulnerability,Little to no social vulnerability,2020,N/A,11
+Social vulnerability,Little to no social vulnerability,2021,N/A,10.8
+Social vulnerability,Little to no social vulnerability,2022,N/A,10.4
+Social vulnerability,Little to no social vulnerability,2023,N/A,11.2
+Social vulnerability,Low social vulnerability,2019,N/A,9.4
+Social vulnerability,Low social vulnerability,2020,N/A,9.5
+Social vulnerability,Low social vulnerability,2021,N/A,10.2
+Social vulnerability,Low social vulnerability,2022,N/A,10.1
+Social vulnerability,Low social vulnerability,2023,N/A,10.3
+Social vulnerability,Medium social vulnerability,2019,N/A,10
+Social vulnerability,Medium social vulnerability,2020,N/A,10.1
+Social vulnerability,Medium social vulnerability,2021,N/A,9.9
+Social vulnerability,Medium social vulnerability,2022,N/A,10.3
+Social vulnerability,Medium social vulnerability,2023,N/A,10
+Social vulnerability,High social vulnerability,2019,N/A,7.6
+Social vulnerability,High social vulnerability,2020,N/A,8.1
+Social vulnerability,High social vulnerability,2021,N/A,8.3
+Social vulnerability,High social vulnerability,2022,N/A,8.3
+Social vulnerability,High social vulnerability,2023,N/A,8.4
+Total,18 years and older,2019,N/A,9.5
+Total,18 years and older,2020,N/A,9.6
+Total,18 years and older,2021,N/A,9.8
+Total,18 years and older,2022,N/A,9.6
+Total,18 years and older,2023,N/A,9.7
+Urbanicity,Large central metro,2019,N/A,7.3
+Urbanicity,Large central metro,2020,N/A,7.5
+Urbanicity,Large central metro,2021,N/A,8
+Urbanicity,Large central metro,2022,N/A,7.6
+Urbanicity,Large central metro,2023,N/A,8.2
+Urbanicity,Large fringe metro,2019,N/A,10
+Urbanicity,Large fringe metro,2020,N/A,9.9
+Urbanicity,Large fringe metro,2021,N/A,9.5
+Urbanicity,Large fringe metro,2022,N/A,9.2
+Urbanicity,Large fringe metro,2023,N/A,9.2
+Urbanicity,Medium and small metro,2019,N/A,10.1
+Urbanicity,Medium and small metro,2020,N/A,10.1
+Urbanicity,Medium and small metro,2021,N/A,10.9
+Urbanicity,Medium and small metro,2022,N/A,11.1
+Urbanicity,Medium and small metro,2023,N/A,10.4
+Urbanicity,Nonmetropolitan,2019,N/A,12
+Urbanicity,Nonmetropolitan,2020,N/A,12.8
+Urbanicity,Nonmetropolitan,2021,N/A,11.7
+Urbanicity,Nonmetropolitan,2022,N/A,11.3
+Urbanicity,Nonmetropolitan,2023,N/A,12.5
+Veteran status,Veteran,2019,N/A,19.9
+Veteran status,Veteran,2020,N/A,20.2
+Veteran status,Veteran,2021,N/A,20.5
+Veteran status,Veteran,2022,N/A,18.8
+Veteran status,Veteran,2023,N/A,19.5
+Veteran status,Non-veteran,2019,N/A,8.6
+Veteran status,Non-veteran,2020,N/A,8.7
+Veteran status,Non-veteran,2021,N/A,9
+Veteran status,Non-veteran,2022,N/A,8.9
+Veteran status,Non-veteran,2023,N/A,9
