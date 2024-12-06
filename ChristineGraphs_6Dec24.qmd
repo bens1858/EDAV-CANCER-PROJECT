@@ -1,0 +1,129 @@
+---
+title: "ChristineGraphs"
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+OperationalPolicy <- read_csv("OperationalPolicy.csv")
+USOperationalPolicy <- OperationalPolicy|> filter(Location=="United States of America")
+
+MortalityIncidenceMerge <- read_csv("mortality_incidence_merge.csv")
+```
+
+```{r}
+CDC_AllCancerData <- read_csv("CDC_AllCancerData.csv")|> filter(Estimate!="N/A")|>mutate(Estimate = as.numeric(Estimate))
+```
+
+```{r}
+Veteran_AllCancerData <- CDC_AllCancerData |> filter(Group == "Veteran status") |> mutate(Year = factor(Year))|>dplyr::select(Year,Subgroup,Estimate)
+
+ggplot(Veteran_AllCancerData, aes(x =Year,y=Estimate)) +
+  geom_col()+
+  facet_wrap(.~Subgroup)
+  
+
+
+```
+
+```{r}
+
+Race_AllCancerData <- CDC_AllCancerData |> filter(Group == "Race") |> mutate(Year = factor(Year))|>dplyr::select(Year,Subgroup,Estimate)
+
+ggplot(Race_AllCancerData, aes(x =Year,y=Estimate)) +
+  geom_col()+
+  facet_wrap(.~Subgroup)
+  
+
+```
+
+```{r}
+
+library(ggplot2)
+library(countrycode)
+
+
+OperationalPolicy <- OperationalPolicy |> mutate(Continent = countrycode(sourcevar = Location,origin = "country.name",destination = "continent"))
+
+
+
+```
+
+```{r}
+OperationalPolicy2021 <- OperationalPolicy |> filter(Period == "2021")|>dplyr::select(Value,Period,Location,Continent)|>rename(Country = "Location")
+
+PolicyIndicdenceMortality <- full_join(OperationalPolicy2021, MortalityIncidenceMerge, join_by(Country)) |>filter(Incidence_rate != is.na(Incidence_rate), Value != is.na(Value))|> dplyr::select(Incidence_rate,Mortality_rate,Country,Value,Incidence_cum_risk_74,Mortality_cum_risk_74,Continent)
+
+
+ggplot(PolicyIndicdenceMortality, aes(x =Value,y=Incidence_rate)) +
+  geom_col()
+
+ggplot(PolicyIndicdenceMortality, aes(x =Value,y=Mortality_rate)) +
+  geom_col()
+
+
+
+```
+
+```{r}
+
+```
+
+```{r}
+#| fig-height: 14
+#| fig-width: 14
+clevelandDotPlot <- PolicyIndicdenceMortality|>dplyr::select(Incidence_rate,Mortality_rate,Value,Country,Continent) |> pivot_longer(cols =!c(Value,Country,Continent),names_to = "RateType", values_to = "Rate" )
+
+
+ggplot(clevelandDotPlot, aes(x=Rate,y=fct_reorder2(Country,RateType=="Incidence_rate",Rate,.desc=FALSE), color =RateType)) +
+  geom_point()+
+  facet_grid(Continent~Value, scales ="free_y",space="free_y")
+
+
+#note crude rate is per 100,000 in population 
+
+#no visible correlation
+# plot by region of the world
+
+# operational policy may have adequate treatment to prevent moratality
+```
+
+```{r}
+#| fig-height: 14
+#| fig-width: 14
+clevelandDotPlot <- PolicyIndicdenceMortality|>dplyr::select(Incidence_cum_risk_74,Mortality_cum_risk_74,Value,Country,Continent) |> pivot_longer(cols =!c(Value,Country,Continent),names_to = "RateType", values_to = "Rate" )
+
+
+ggplot(clevelandDotPlot, aes(x=Rate,y=fct_reorder2(Country,RateType=="Incidence_cum_risk_74",Rate,.desc=FALSE), color =RateType)) +
+  geom_point()+
+  facet_grid(Continent~Value, scales ="free_y",space="free_y")
+
+#this is estimated cumulative risk percent
+
+
+
+
+```
+
+```{r}
+
+AllCancerData_lumps <- CDC_AllCancerData |> mutate(Estimate_Level = ifelse(Estimate>20, "High",ifelse(Estimate>10,"Mid", "Low")))
+
+
+
+pairs(table(AllCancerData_lumps[,c(3,6)]),highlighting = 2)
+
+```
+
+```{r}
+
+AllCancerData_lumps_new <- AllCancerData_lumps |> filter(Group == c("Race","Race and Hispanic origin", "Veteran status"))
+pairs(table(AllCancerData_lumps_new[,c(1,3,6)]))
+
+```
+
+```{r}
+AgeGroups_Mosaic <- AllCancerData_lumps |> filter(Group == c("Age groups with 65 years and older", "Age groups with 75 years and older")) 
+
+pairs(table(AgeGroups_Mosaic[,c(1,6)]),highlighting = 2)
+```
