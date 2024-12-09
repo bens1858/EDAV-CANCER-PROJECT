@@ -1,9 +1,19 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+# Results
+=======
+=======
+>>>>>>> main
 \#
 
 ---
 title: "ChristineGraphs7Dec24"
 editor: visual
 ---
+<<<<<<< HEAD
+>>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main
 
 ```{r}
 #| message: FALSE
@@ -18,6 +28,12 @@ CDC_AllCancerData <- read_csv("CDC_AllCancerData.csv")|> filter(Estimate!="N/A")
 OperationalPolicy <- OperationalPolicy |> mutate(Continent = countrycode(sourcevar = Location,origin = "country.name",destination = "continent"))
 OperationalPolicy2021 <- OperationalPolicy |> filter(Period == "2021")|>dplyr::select(Value,Period,Location,Continent)|>rename(Country = "Location")
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+PolicyIndicdenceMortality <- full_join(OperationalPolicy2021, MortalityIncidenceMerge, join_by(Country)) |>filter(Incidence_rate != is.na(Incidence_rate), Value != is.na(Value))|> dplyr::select(Incidence_rate,Mortality_rate,Country,Value,Incidence_cum_risk_74,Mortality_cum_risk_74,Continent)
+=======
+=======
+>>>>>>> main
 PolicyIndicdenceMortality <- full_join(OperationalPolicy2021, MortalityIncidenceMerge, join_by(Country)) |>filter(Incidence_rate != is.na(Incidence_rate), Value != is.na(Value))|> dplyr::select(Incidence_rate,Mortality_rate,Country,Value,Incidence_cum_risk_74,Mortality_cum_risk_74,Continent)|>mutate(Value = ifelse(Value=="No","Operational Policy Does Not Exist", ifelse(Value=="Yes","Operational Policy Exists","No response")))
 
 
@@ -63,6 +79,10 @@ PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "French
 PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Micronesia"] <- "Oceania"
 
 
+<<<<<<< HEAD
+>>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main
 ```
 
 ```{r}
@@ -141,6 +161,11 @@ One limitation of this data is that we are comparing the estimates across differ
 ```{r}
 #| fig-height: 10
 #| fig-width: 10
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> main
 ggplot(AllCancerData_lumps_new_4, aes(x=Estimate,y=fct_reorder2(Subgroup,Estimate_Level=="Low",Estimate,.desc=FALSE), color =Estimate_Level)) +
   geom_point()+
   facet_grid(Group~., scales ="free_y",space="free_y")+
@@ -154,6 +179,10 @@ In this plot, it is visible that most subgroups consistently have the same estim
 ```{r}
 #| fig-height: 10
 #| fig-width: 10
+<<<<<<< HEAD
+>>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main
 CDC_CancerData_groups <- CDC_AllCancerData |>mutate(Group =ifelse(Group =="Poverty level", Group, ifelse(Group == "Race",Group,ifelse(Group=="Education status", Group, ifelse(Group=="Sex",Group,NA)))))|>na.omit()|> dplyr::select(Subgroup,Estimate,Year)|>pivot_wider(names_from=Year,values_from = Estimate)|>na.omit()|>pivot_longer(names_to="Year", cols=!Subgroup,values_to="Estimate")|>pivot_wider(names_from=Subgroup,values_from = Estimate)
 
 
@@ -165,6 +194,18 @@ We can use a PCA plot to discover if certain subgroups may be correlated with on
 
 ```{r}
 #| message: FALSE
+<<<<<<< HEAD
+<<<<<<< HEAD
+#| fig-height: 10
+#| fig-width: 4
+library(parcoords)
+CDC_CancerData_groups3 <- CDC_AllCancerData |>mutate(Subgroup = ifelse(Group== "Health insurance coverage: 65 years and older", paste(Subgroup,"(Above 65yo)"), ifelse(Group =="Health insurance coverage: Younger than 65 years", paste(Subgroup, "(Below 65yo)"), Subgroup)))|> dplyr::select(Group, Subgroup,Estimate,Year)|>pivot_wider(names_from=Year,values_from = Estimate)|>na.omit()|>rename(Y2019="2019",Y2020="2020",Y2021="2021",Y2022="2022",Y2023="2023")
+
+CDC_CancerData_groups3<-CDC_CancerData_groups3[order(-CDC_CancerData_groups3$Y2019),]
+
+=======
+=======
+>>>>>>> main
 #| fig.width: 8
 library(parcoords)
 CDC_CancerData_groups3 <- CDC_AllCancerData |>mutate(Subgroup = ifelse(Group== "Health insurance coverage: 65 years and older", paste(Subgroup,"(Above 65yo)"), ifelse(Group =="Health insurance coverage: Younger than 65 years", paste(Subgroup, "(Below 65yo)"), Subgroup)))|> dplyr::select(Group, Subgroup,Estimate,Year)|>pivot_wider(names_from=Year,values_from = Estimate)|>na.omit()|>rename(Y2019="2019",Y2020="2020",Y2021="2021",Y2022="2022",Y2023="2023")|>dplyr::select(Group,Y2019,Y2020,Y2021,Y2022,Y2023)
@@ -172,6 +213,10 @@ CDC_CancerData_groups3 <- CDC_AllCancerData |>mutate(Subgroup = ifelse(Group== "
 
 
 PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Antigua and Barbuda"] <- "North America"
+<<<<<<< HEAD
+>>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main
 parcoords(CDC_CancerData_groups3, 
           rownames = FALSE,    
           brushMode = "1D-axes-multi",    
@@ -180,6 +225,385 @@ parcoords(CDC_CancerData_groups3,
           autoresize = TRUE,
           queue = TRUE,
           color = "red",
+<<<<<<< HEAD
+<<<<<<< HEAD
+          height=1600,
+          width=1600)
+```
+
+By plotting all subgroups on the parallel coordinates plot, we can identify which subgroups have which estimate percent per year for cancer. Additionally, we are able to see that for most subgroups, the cancer rate stays the same across the sample years. We only see a change in cancer rate for the Alaska Native and White, health insurance subgroups and without disability subgroups. This graph gives an overview time series for all groups and is what we chose to build our d3 interactive plot from. This can be a starting point that allows the observer to identify which individual subgroups to explore more closely to see cancer rates over the years.
+
+```{r}
+#| message: FALSE
+library(dplyr)
+library(ggplot2)
+library(RColorBrewer)
+library(tidyverse)
+library(countries)
+library(mapproj)
+library(maps)
+library(vcd)
+library(parcoords)
+library(GGally)
+library(countrycode)
+
+#Data cleaning and merging
+
+#Import health personnel data
+un_health_personnel <- read.csv("un_health_personnel.csv")
+un_health_personnel |> 
+  filter(Series == "Health personnel: Physicians (number)") |> 
+  select(Region.Country.Area, Year, Value)-> un_physicians_raw
+
+un_health_personnel |> 
+  filter(Series == "Health personnel: Physicians (per 1000 population)") |> 
+  select(Region.Country.Area, Year, Value) -> un_physicians_proportion
+
+#Merge data
+un_physicians_merge <- full_join(un_physicians_raw, un_physicians_proportion, by = c("Region.Country.Area", "Year"))
+
+#Rename columns
+colnames(un_physicians_merge) <- c("Country", "Year", "Physicans_raw", "Physicians_per_1000")
+
+#remove commas from physicians_raw and convert to numeric
+un_physicians_merge$Physicans_raw <- gsub(",", "", un_physicians_merge$Physicans_raw)
+un_physicians_merge$Physicans_raw <- as.numeric(un_physicians_merge$Physicans_raw)
+
+un_physicians_merge$Physicians_per_1000 <- as.numeric(un_physicians_merge$Physicians_per_1000)
+```
+
+```{r}
+#Import health expenditure data
+#write.csv(un_health_expenditure, "un_health_expenditure.csv")
+un_health_expenditure <- read.csv("un_health_expenditure.csv")
+
+un_health_expenditure |> 
+  filter(Series == "Current health expenditure (% of GDP)") |> 
+  select(Region.Country.Area, Year, Value)-> un_gdp_expenditure
+
+un_health_expenditure |> 
+  filter(Series == "Domestic general government health expenditure (% of total government expenditure)") |> 
+  select(Region.Country.Area, Year, Value, Footnotes) -> un_domestic_expenditure
+
+#Merge data
+un_expenditure_merge <- full_join(un_gdp_expenditure, un_domestic_expenditure, by = c("Region.Country.Area", "Year"))
+
+#Rename columns
+colnames(un_expenditure_merge) <- c("Country", "Year", "Pct_GDP", "Pct_Domestic", "Footnotes")
+
+#Merge both datasets
+physicians_expenditure <- full_join(un_physicians_merge, un_expenditure_merge, by = c("Country", "Year"))
+
+#Change Country Names
+physicians_expenditure$Country[physicians_expenditure$Country == "Bolivia (Plurin. State of)"] <- "Bolivia"
+physicians_expenditure$Country[physicians_expenditure$Country == "Brunei Darussalam"] <- "Brunei"
+physicians_expenditure$Country[physicians_expenditure$Country == "Congo"] <- "Republic of Congo"
+physicians_expenditure$Country[physicians_expenditure$Country == "Côte d’Ivoire"] <- "Côte d'Ivoire"
+physicians_expenditure$Country[physicians_expenditure$Country == "Dem. Rep. of the Congo"] <- "Democratic Republic of the Congo"
+physicians_expenditure$Country[physicians_expenditure$Country == "Iran (Islamic Republic of)"] <- "Iran"
+physicians_expenditure$Country[physicians_expenditure$Country == "Lao People's Dem. Rep."] <- "Laos"
+physicians_expenditure$Country[physicians_expenditure$Country == "Micronesia (Fed. States of)"] <- "Micronesia"
+physicians_expenditure$Country[physicians_expenditure$Country == "Netherlands (Kingdom of the)"] <- "The Netherlands"
+physicians_expenditure$Country[physicians_expenditure$Country == "Republic of Korea"] <- "South Korea"
+physicians_expenditure$Country[physicians_expenditure$Country == "Republic of Moldova"] <- "Moldova"
+physicians_expenditure$Country[physicians_expenditure$Country == "Russian Federation"] <- "Russia"
+physicians_expenditure$Country[physicians_expenditure$Country == "Syrian Arab Republic"] <- "Syria"
+physicians_expenditure$Country[physicians_expenditure$Country == "United Rep. of Tanzania"] <- "Tanzania"
+physicians_expenditure$Country[physicians_expenditure$Country == "Venezuela (Boliv. Rep. of)"] <- "Venezuela"
+physicians_expenditure$Country[physicians_expenditure$Country == "Viet Nam"] <- "Vietnam"
+physicians_expenditure$Country[physicians_expenditure$Country == "Dem. People's Rep. Korea"] <- "North Korea"
+physicians_expenditure$Country[physicians_expenditure$Country == "State of Palestine"] <- "Palestine"
+
+#Create average physician rate by country from 2015-2021
+physicians_expenditure |> 
+  filter(Year >= 2015) |> 
+  group_by(Country) |> 
+  summarize(avg_phy_rate = mean(Physicians_per_1000, na.rm = TRUE)) |> 
+  ungroup() -> physicians_expenditure_2015_2021
+
+```
+
+```{r}
+#Mortality Data
+#write.csv(cancer_mortality_2022, "cancer_mortality_2022.csv")
+cancer_mortality_2022 <- read.csv("cancer_mortality_2022.csv")
+cancer_mortality_2022 |> 
+  select(Label, Number, Crude.rate, Cumulative.risk) -> cancer_mortality_2022_cut
+
+colnames(cancer_mortality_2022_cut) <- c("Country", "Mortality_Number", "Mortality_rate", "Mortality_cum_risk_74") 
+
+#Incidence Data
+#write.csv(cancer_incidence_2022, "cancer_incidence_2022.csv")
+cancer_incidence_2022 <- read.csv("cancer_incidence_2022.csv")
+
+cancer_incidence_2022 |> 
+  select(Label, Number, Crude.rate, Cumulative.risk) -> cancer_incidence_2022_cut
+
+colnames(cancer_incidence_2022_cut) <- c("Country", "Incidence_Number", "Incidence_rate", "Incidence_cum_risk_74")
+
+mortality_incidence_merge <- full_join(cancer_incidence_2022_cut, cancer_mortality_2022_cut, by = "Country")
+
+#write.csv(mortality_incidence_merge, file = "mortality_incidence.csv", row.names = FALSE)
+
+
+#Change country names:
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "Bosnia Herzegovina"] <- "Bosnia and Herzegovina"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "Brunei Darussalam"] <- "Brunei"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "Congo, Democratic Republic of"] <- "Democratic Republic of the Congo"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "Congo, Republic of"] <- "Republic of Congo"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "France (metropolitan)"] <- "France"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "France, Guadeloupe"] <- "Guadeloupe"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "France, La Réunion"] <- "Reunion"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "France, Martinique"] <- "Martinique"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "French Guyana"] <- "French Guiana"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "Gaza Strip and West Bank"] <- "Palestine"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "Iran (Islamic Republic of)"] <- "Iran"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "Korea (Democratic People Republic of)"] <- "North Korea"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "Republic of Korea"] <- "South Korea"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "Lao People's Democratic Republic"] <- "Laos"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "Russian Federation"] <- "Russia"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "Syrian Arab Republic"] <- "Syria"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "Tanzania, United Republic of"] <- "Tanzania"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "The Republic of the Gambia"] <- "Gambia"
+mortality_incidence_merge$Country[mortality_incidence_merge$Country == "Viet Nam"] <- "Vietnam"
+
+```
+
+```{r}
+#| warning: FALSE
+#Merge averaged physician data with cancer data
+cancer_inc_doctor_rate <- full_join(physicians_expenditure_2015_2021, mortality_incidence_merge, by = "Country")
+
+#turn mortality rate into categorical
+cancer_inc_doctor_rate$mortality_rate_categorical <- cut(cancer_inc_doctor_rate$Mortality_rate, 
+                                                         breaks = c(0, 50, 100, 150, 200, 341.3),
+                                                         labels = c("0-50", "50-100", "100-150", "150-200", "200+"),
+                                                         right = FALSE)
+
+#add year column to cancer/mortality dataset
+mortality_incidence_merge$Year <- 2022
+physicians_expenditure$Physicans_raw <- as.numeric(physicians_expenditure$Physicans_raw)
+
+physicians_expenditure |> 
+  filter(Year >= 2015) |> 
+  group_by(Country) |> 
+  summarize(avg_phy_rate = mean(Physicians_per_1000, na.rm = TRUE),
+            avg_phy_raw = mean(Physicans_raw, na.rm = TRUE),
+            avg_pct_gdp = mean(Pct_GDP, na.rm = TRUE),
+            avg_pct_domestic_spending = mean(Pct_Domestic, na.rm = TRUE)) |> 
+  ungroup() -> physicians_expenditure_2015_2021
+
+
+#Merge 2015-2021 averages with cancer data 
+cancer_exp_phy_2015_2022 <- full_join(physicians_expenditure_2015_2021, mortality_incidence_merge, by = "Country")
+colnames(cancer_exp_phy_2015_2022)[colnames(cancer_exp_phy_2015_2022) == "Country"] <- "region"
+
+cancer_exp_phy_2015_2022$continent <- countrycode(cancer_exp_phy_2015_2022$region, origin = "country.name", destination = "continent")
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Antigua and Barbuda"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Bahamas"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Barbados"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Belize"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Canada"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Costa Rica"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Cuba"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Dominica"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Dominican Republic"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "El Salvador"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Grenada"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Guatemala"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Haiti"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Honduras"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Jamaica"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Mexico"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Nicaragua"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Panama"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Saint Kitts and Nevis"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Saint Lucia"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Saint Vincent & Grenadines"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Trinidad and Tobago"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "United States of America"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Guadeloupe"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Martinique"] <- "North America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Puerto Rico"] <- "North America"
+
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Argentina"] <- "South America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Bolivia"] <- "South America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Brazil"] <- "South America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Chile"] <- "South America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Colombia"] <- "South America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Ecuador"] <- "South America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Guyana"] <- "South America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Paraguay"] <- "South America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Peru"] <- "South America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Suriname"] <- "South America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Uruguay"] <- "South America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Venezuela"] <- "South America"
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "French Guiana"] <- "South America"
+
+cancer_exp_phy_2015_2022$continent[cancer_exp_phy_2015_2022$region == "Micronesia"] <- "Oceania"
+
+cancer_exp_phy_2015_2022 |> 
+  filter(!is.na(continent)) -> cancer_exp_phy_2015_2022
+
+cancer_exp_phy_2015_2022$mortality_rate_categorical <- cut(cancer_exp_phy_2015_2022$Mortality_rate, 
+                                                        breaks = c(0, 50, 100, 150, 200, 341.3),
+                                                         labels = c("0-50", "50-100", "100-150", "150-200", "200+"),
+                                                         right = FALSE)
+
+cancer_exp_phy_2015_2022$avg_phy_rate_categorical_2 <- cut(cancer_exp_phy_2015_2022$avg_phy_rate, 
+                                                         breaks = c(0, 2, 9),
+                                                         labels = c("0-2", "2+"),
+                                                         right = FALSE)
+
+cancer_exp_phy_2015_2022$avg_phy_rate_categorical_5 <- cut(cancer_exp_phy_2015_2022$avg_phy_rate, 
+                                                         breaks = c(0, 1, 2, 3, 4, 9),
+                                                         labels = c("0-1", "1-2", "2-3", "3-4", "4+"),
+                                                         right = FALSE)
+
+cancer_exp_phy_2015_2022$avg_dom_spend_categorical_3 <- cut(cancer_exp_phy_2015_2022$avg_pct_domestic_spending, 
+                                                         breaks = c(0, 10, 20, 30),
+                                                         labels = c("0-10", "10-20", "20+"),
+                                                         right = FALSE)
+
+cancer_exp_phy_2015_2022$avg_dom_spend_categorical_6 <- cut(cancer_exp_phy_2015_2022$avg_pct_domestic_spending, 
+                                                         breaks = c(0, 5, 10, 15, 20, 25, 30),
+                                                         labels = c("0-5", "5-10", "10-15", "15-20", "20-25", "25+"),
+                                                         right = FALSE)
+
+cancer_exp_phy_2015_2022$incidence_rate_categorical_7 <- cut(cancer_exp_phy_2015_2022$Incidence_rate, 
+                                                         breaks = c(0, 100, 200, 300, 400, 500, 600, 1000),
+                                                         labels = c("0-100", "100-200", "200-300", "300-400", "400-500", "500-600", "600+"),
+                                                         right = FALSE)
+
+cancer_exp_phy_2015_2022$incidence_rate_categorical_4 <- cut(cancer_exp_phy_2015_2022$Incidence_rate, 
+                                                         breaks = c(0, 100, 200, 300, 1000),
+                                                         labels = c("0-100", "100-200", "200-300", "300+"),
+                                                         right = FALSE)
+
+cancer_exp_phy_2015_2022$avg_gdp_categorical_3 <- cut(cancer_exp_phy_2015_2022$avg_pct_gdp, 
+                                                         breaks = c(0, 5, 10, 20),
+                                                         labels = c("0-5", "5-10", "10+"),
+                                                         right = FALSE)
+
+```
+
+```{r}
+#Change Names in world data
+world$region[world$region == "Czech Republic"] <- "Czechia"
+world$region[world$region == "Swaziland"] <- "Eswatini"
+world$region[world$region == "Netherlands"] <- "The Netherlands"
+world$region[world$region == "Trinidad"] <- "Trinidad and Tobago"
+world$region[world$region == "Tobago"] <- "Trinidad and Tobago"
+world$region[world$region == "Turkey"] <- "Türkiye"
+world$region[world$region == "UK"] <- "United Kingdom"
+world$region[world$region == "USA"] <- "United States of America"
+world$region[world$region == "Ivory Coast"] <- "Côte d'Ivoire"
+world$region[world$region == "Antigua"] <- "Antigua and Barbuda"
+world$region[world$region == "Barbuda"] <- "Antigua and Barbuda"
+world$region[world$region == "Cape Verde"] <- "Cabo Verde"
+world$region[world$region == "Saint Kitts"] <- "Saint Kitts and Nevis"
+world$region[world$region == "Nevis"] <- "Saint Kitts and Nevis"
+world$region[world$region == "Saint Vincent"] <- "Saint Vincent & Grenadines"
+world$region[world$region == "Grenadines"] <- "Saint Vincent & Grenadines"
+```
+
+```{r}
+ggplot() +
+  geom_map(data = world, aes(map_id = region), map = world) +
+  geom_map(data = cancer_exp_phy_2015_2022, aes(map_id = region, fill = incidence_rate_categorical_7), 
+           map = world)+
+  expand_limits(x = world$long, y = world$lat)+
+  labs(title = "Cancer Incidence Rates 2022", 
+       fill="Incidence Rate\n(per 100k)") +
+  scale_fill_brewer(palette = "Reds",
+                    na.translate = FALSE)+
+  theme_void()
+```
+
+In this map, there are clear regional patterns surrounding the incidence rates of cancer. Much of the western world has very high cancer rates, with the United States, Canada, Australia, New Zealand, and much of northern and western Europe having more than 600 cases of cancer per 100,000 people. By contrast, most African countries have between 0 and 100 cases of cancer per 100,000 people. Asian and South American countries tend to fall somewhere in between these two extremes, though Japan has rates more similar to the West than to the rest of Asia. There are many reasons that could explain this disparity, which we will explore later. Some factors may have to do with lifestyle, or they may have to do with response bias. Do countries that have better medical infrastructure catch and report cancer at a higher rate? It is possible.
+
+```{r}
+ggplot() +
+  geom_map(data = world, aes(map_id = region), map = world) +
+  geom_map(data = cancer_exp_phy_2015_2022, aes(map_id = region, fill = mortality_rate_categorical), 
+           map = world)+
+  expand_limits(x = world$long, y = world$lat)+
+  labs(title = "Cancer Mortality Rates 2022", 
+       fill="Mortality Rate\n(per 100,000)") +
+  scale_fill_brewer(palette = "Reds",
+                    na.translate = FALSE)+
+  theme_void()
+```
+
+Much like cancer incidence rates, the West tends to have higher levels of mortality than the rest of the world. However, it is not as stark a difference here. While Canada and almost all of Europe have mortality rates of at least 200 per 100,000 people, some Asian and South American countries have a disproportionately high mortality rate compared to the incidence rate. Most of Africa again has very low rates of death from cancer, though South Africa and Tunisia have higher rates than the rest of the continent.
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8 
+#| warning: FALSE
+cancer_exp_phy_2015_2022 |> 
+  select(continent, Incidence_rate, Mortality_rate, avg_phy_rate, avg_pct_gdp, avg_pct_domestic_spending) -> merged_subset
+
+colnames(merged_subset) <- c("Continent", "Incidence (per 100k)", "Mortality (per 100k)", "Physicians (per 1k)", "% GDP", "% Domestic Spending")
+
+ggpairs(merged_subset, columns = 2:6, aes(alpha = 0.5, stroke = 0))+
+  theme_minimal()
+```
+
+To see which factors may influence cancer incidence and mortality rates in each country, we will look at the number of physicians per 1,000 residents, the percent of a country's GDP that goes towards healthcare expenditure, and the percent of a country's entire domestic spending that goes towards healthcare expenditure. Since we have incidence and mortality rates for the year 2022 and we have inconsistent data across countries for physician counts, GDP, and domestic spending, we will average the physician counts, GDP, and domestic spending across 2015-2021, which is the most recent data we have and the smallest range we can include that still encompasses most countries. It will not be a perfect tally, but it is the best estimate we can create given the data we have access to.
+
+We see in the above graph that incidence rate and mortality rate have a strong positive correlation (0.946), indicating that countries with higher rates of cancer also have higher rates of death from cancer. Interestingly, the incidence rate of cancer also has a positive correlation with the number of physicians operating in the country (0.785) and with the percentage of a countries money spent on healthcare (0.624 for GDP, 0.624 for domestic spending). While correlation does not equal causation, one potential reason for this is that with more investment and more doctors working in a country, there are more opportunities to find cancer. Mortality rate is also positively correlated with each of these three measures, though GDP spent and domestic spending are not as strongly correlated.
+
+```{r}
+#scatterplot of incidence rate vs. doctor rate
+ggplot(data=cancer_exp_phy_2015_2022, aes(x=avg_phy_rate, y=Incidence_rate, color=as.factor((mortality_rate_categorical))), na.rm= TRUE)+
+  geom_point(na.rm = TRUE) +
+  labs(x="Average Physician Rate (per 1000), 2015-2021", y="Cancer Incidence Rate (per 100k), 2022", color = "Cancer Mortality Rate\n(per 100k)", title = "Cancer Rates vs. Number of Physicians by Country")+
+  scale_color_brewer(palette = "YlGnBu",
+                     na.translate = FALSE) +
+  theme_minimal()
+```
+
+Looking more closely at the relationship between cancer incidence rate and the number of physicians in a country, we can see that as a country has more physicians per 1,000 people, the rate of cancer increases. The data is more concentrated at the lower end of the spectrum - countries with almost no doctors also have almost no cancer reported. The data fans out as the number of physicians increases. At one extreme, once country (Cuba) has more than 8 physicians per 1,000 people and about 450 cancer cases per 100,000, while Japan has just 2.6 physicians per 1,000 people but a cancer rate of 800 per 100,000. We can also see clearly with color here that countries that have higher cancer rates and more physicians also have higher mortality rates, showing again just how correlated this data is.
+
+```{r}
+#| fig-width: 8
+#| fig-height: 11 
+ggplot(cancer_exp_phy_2015_2022, aes(x=avg_pct_domestic_spending, y=Incidence_rate, color=mortality_rate_categorical))+
+  geom_point(na.rm = TRUE) +
+  facet_wrap(~continent, ncol = 1)+
+  labs(color = "Mortality Rate\n(per 100k)", x="% Domestic Spending", y="Incidence Rate (per 100k)", 
+       title = "Cancer Rates by Domestic Healthcare Spending") +
+  scale_color_brewer(palette = "YlGnBu",
+                     na.translate = FALSE) +
+  theme_minimal()+
+  theme(
+    panel.grid.major = element_line(linewidth = 0.2, color = "black"),
+    panel.grid.minor = element_line(linewidth = 0.1, color = "black"))
+```
+
+Europe is very apparently the standout continent. Most countries in Europe spend between 10 and 20% of their domestic spending on healthcare, have cancer rates of 400 to 800 people per 100,000, and have cancer mortality rates of 250+ per 100,000. This is far higher on average than any other continent. Africa falls on the other end of the extreme, with most countries having fewer than 200 cancer cases per 100,000 people, spending less than 10% of domestic spending on healthcare, and mostly having cancer mortality rates less than 100 per 100,000 people. Asian and North American countries show more variation across these three metrics. There are Asian countries with incidence rates as low as 58 and as high as 800 per 100,000 people, with mortality rates as low as 26 and as high as 339, and with domestic spending as low as 2% and as high as 23%. Interestingly, Japan is the highest in Asian country in all 3 of these categories. Also of note is how South American countries are similarly compact in their level of domestic spending as European countries, with almost all falling between 10% and 20%, yet their incidence and mortality rates are far lower than Europe's. It goes to show that while there does appear to be a positive correlation domestic spending and incidence rates, there are clearly other factors in play too.
+
+```{r}
+#| fig-width: 12
+#| fig-height: 8 
+mosaic(incidence_rate_categorical_4 ~ avg_phy_rate_categorical_2 + avg_gdp_categorical_3, 
+       direction = c("v", "v", "h"),
+       data = cancer_exp_phy_2015_2022, 
+       highlighting_fill = brewer.pal(4, "Reds"),
+       rot_labels=0,
+       labeling_args = list(set_varnames = c(
+         avg_phy_rate_categorical_2 = "Physicians per 1k",
+         incidence_rate_categorical_4 = "Incidence Rate (per 100k)",
+         avg_gdp_categorical_3 = "% GDP Spending")),
+       main = "Cancer Rates by GDP Spending and Doctors",
+       cex.main = 0.5)
+```
+
+Looking at how the cancer rates, amount of GDP spent on healthcare, and the number of physicians in the country, we can see some stark differences. Overwhelmingly, countries that spend less and have fewer doctors have lower rates of cancer. More than half of countries that spend less than 5% of their GDP and have 0 to 2 physicians per 1,000 people have lower than 100 cancer cases per 100,000. No country under these parameters has a cancer rate above 300 per 100,000. Notably, the limited number of countries that spend more than 10% of their GDP on healthcare but have 0 to 2 physicians per 1,000 people all have a cancer rate of less than 100. Contrarily, in countries with more than 2 physicians per 1,000 people, the cancer rates are much higher. On top of that, as these countries spend more of their GDP on healthcare, the cancer rates increase even more to the point that every single country that has more than 2 physicians per 1,000 people and spends more than 10% of their GDP has a cancer rate of 300 or more. The overwhelming majority of countries with 2 per 1,000 physicians that spend between 5-10% of their GDP also have cancer rates of more than 300 per 100,000. While this mosaic plot demonstrates a relationship between both GDP spending and cancer rates and number of physicians and cancer rate, it makes plain that the number of doctors has a much stronger relationship with cancer rates than the percent of a country's GDP is spent on healthcare.
+=======
+=======
+>>>>>>> main
           margin = list(left = 225))
 
 
@@ -188,3 +612,7 @@ parcoords(CDC_CancerData_groups3,
 ```
 
 By plotting all subgroups on the parallel coordinates plot, we can identify which subgroups have which estimate percent per year for cancer. Additionally, we are able to see that for most subgroups, the cancer rate stays the same across the sample years. We only see a change in cancer rate for the Alaska Native and White, health insurance subgroups and without disability subgroups. This graph gives an overview time series for all groups and is what we chose to build our d3 interactive plot from. This can be a starting point that allows the observer to identify which individual subgroups to explore more closely to see cancer rates over the years.
+<<<<<<< HEAD
+>>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main
