@@ -1,4 +1,5 @@
 # Results
+
 ```{r}
 #| message: FALSE
 library(tidyverse)
@@ -122,7 +123,6 @@ parcoords(CDC_CancerData_groups3,
 ```
 
 By plotting all subgroups on the parallel coordinates plot, we can identify which subgroups have which estimate percent per year for cancer. Additionally, we are able to see that for most subgroups, the cancer rate stays the same across the sample years. We only see a change in cancer rate for the Alaska Native and White, health insurance subgroups and without disability subgroups. This graph gives an overview time series for all groups and is what we chose to build our d3 interactive plot from. This can be a starting point that allows the observer to identify which individual subgroups to explore more closely to see cancer rates over the years.
-
 
 ```{r}
 #| message: FALSE
@@ -398,7 +398,6 @@ world$region[world$region == "Saint Vincent"] <- "Saint Vincent & Grenadines"
 world$region[world$region == "Grenadines"] <- "Saint Vincent & Grenadines"
 ```
 
-
 ```{r}
 ggplot() +
   geom_map(data = world, aes(map_id = region), map = world) +
@@ -411,7 +410,9 @@ ggplot() +
                     na.translate = FALSE)+
   theme_void()
 ```
+
 In this map, there are clear regional patterns surrounding the incidence rates of cancer. Much of the western world has very high cancer rates, with the United States, Canada, Australia, New Zealand, and much of northern and western Europe having more than 600 cases of cancer per 100,000 people. By contrast, most African countries have between 0 and 100 cases of cancer per 100,000 people. Asian and South American countries tend to fall somewhere in between these two extremes, though Japan has rates more similar to the West than to the rest of Asia. There are many reasons that could explain this disparity, which we will explore later. Some factors may have to do with lifestyle, or they may have to do with response bias. Do countries that have better medical infrastructure catch and report cancer at a higher rate? It is possible.
+
 ```{r}
 ggplot() +
   geom_map(data = world, aes(map_id = region), map = world) +
@@ -424,6 +425,7 @@ ggplot() +
                     na.translate = FALSE)+
   theme_void()
 ```
+
 Much like cancer incidence rates, the West tends to have higher levels of mortality than the rest of the world. However, it is not as stark a difference here. While Canada and almost all of Europe have mortality rates of at least 200 per 100,000 people, some Asian and South American countries have a disproportionately high mortality rate compared to the incidence rate. Most of Africa again has very low rates of death from cancer, though South Africa and Tunisia have higher rates than the rest of the continent.
 
 ```{r}
@@ -438,9 +440,10 @@ colnames(merged_subset) <- c("Continent", "Incidence (per 100k)", "Mortality (pe
 ggpairs(merged_subset, columns = 2:6, aes(alpha = 0.5, stroke = 0))+
   theme_minimal()
 ```
+
 To see which factors may influence cancer incidence and mortality rates in each country, we will look at the number of physicians per 1,000 residents, the percent of a country's GDP that goes towards healthcare expenditure, and the percent of a country's entire domestic spending that goes towards healthcare expenditure. Since we have incidence and mortality rates for the year 2022 and we have inconsistent data across countries for physician counts, GDP, and domestic spending, we will average the physician counts, GDP, and domestic spending across 2015-2021, which is the most recent data we have and the smallest range we can include that still encompasses most countries. It will not be a perfect tally, but it is the best estimate we can create given the data we have access to.
 
-We see in the above graph that incidence rate and mortality rate have a strong positive correlation (0.946), indicating that countries with higher rates of cancer also have higher rates of death from cancer. Interestingly, the incidence rate of cancer also has a positive correlation with the number of physicians operating in the country (0.785) and with the percentage of a countries money spent on healthcare (0.624 for GDP, 0.624 for domestic spending). While correlation does not equal causation, one potential reason for this is that with more investment and more doctors working in a country, there are more opportunities to find cancer. Mortality rate is also positively correlated with each of these three measures, though GDP spent and domestic spending are not as strongly correlated. 
+We see in the above graph that incidence rate and mortality rate have a strong positive correlation (0.946), indicating that countries with higher rates of cancer also have higher rates of death from cancer. Interestingly, the incidence rate of cancer also has a positive correlation with the number of physicians operating in the country (0.785) and with the percentage of a countries money spent on healthcare (0.624 for GDP, 0.624 for domestic spending). While correlation does not equal causation, one potential reason for this is that with more investment and more doctors working in a country, there are more opportunities to find cancer. Mortality rate is also positively correlated with each of these three measures, though GDP spent and domestic spending are not as strongly correlated.
 
 ```{r}
 #scatterplot of incidence rate vs. doctor rate
@@ -451,8 +454,8 @@ ggplot(data=cancer_exp_phy_2015_2022, aes(x=avg_phy_rate, y=Incidence_rate, colo
                      na.translate = FALSE) +
   theme_minimal()
 ```
-Looking more closely at the relationship between cancer incidence rate and the number of physicians in a country, we can see that as a country has more physicians per 1,000 people, the rate of cancer increases. The data is more concentrated at the lower end of the spectrum - countries with almost no doctors also have almost no cancer reported. The data fans out as the number of physicians increases. At one extreme, once country (Cuba) has more than 8 physicians per 1,000 people and about 450 cancer cases per 100,000, while Japan has just 2.6 physicians per 1,000 people but a cancer rate of 800 per 100,000. We can also see clearly with color here that countries that have higher cancer rates and more physicians also have higher mortality rates, showing again just how correlated this data is.
 
+Looking more closely at the relationship between cancer incidence rate and the number of physicians in a country, we can see that as a country has more physicians per 1,000 people, the rate of cancer increases. The data is more concentrated at the lower end of the spectrum - countries with almost no doctors also have almost no cancer reported. The data fans out as the number of physicians increases. At one extreme, once country (Cuba) has more than 8 physicians per 1,000 people and about 450 cancer cases per 100,000, while Japan has just 2.6 physicians per 1,000 people but a cancer rate of 800 per 100,000. We can also see clearly with color here that countries that have higher cancer rates and more physicians also have higher mortality rates, showing again just how correlated this data is.
 
 ```{r}
 #| fig-width: 8
@@ -469,8 +472,8 @@ ggplot(cancer_exp_phy_2015_2022, aes(x=avg_pct_domestic_spending, y=Incidence_ra
     panel.grid.major = element_line(linewidth = 0.2, color = "black"),
     panel.grid.minor = element_line(linewidth = 0.1, color = "black"))
 ```
-Europe is very apparently the standout continent. Most countries in Europe spend between 10 and 20% of their domestic spending on healthcare, have cancer rates of 400 to 800 people per 100,000, and have cancer mortality rates of 250+ per 100,000. This is far higher on average than any other continent. Africa falls on the other end of the extreme, with most countries having fewer than 200 cancer cases per 100,000 people, spending less than 10% of domestic spending on healthcare, and mostly having cancer mortality rates less than 100 per 100,000 people. Asian and North American countries show more variation across these three metrics. There are Asian countries with incidence rates as low as 58 and as high as 800 per 100,000 people, with mortality rates as low as 26 and as high as 339, and with domestic spending as low as 2% and as high as 23%. Interestingly, Japan is the highest in Asian country in all 3 of these categories. Also of note is how South American countries are similarly compact in their level of domestic spending as European countries, with almost all falling between 10% and 20%, yet their incidence and mortality rates are far lower than Europe's. It goes to show that while there does appear to be a positive correlation domestic spending and incidence rates, there are clearly other factors in play too.
 
+Europe is very apparently the standout continent. Most countries in Europe spend between 10 and 20% of their domestic spending on healthcare, have cancer rates of 400 to 800 people per 100,000, and have cancer mortality rates of 250+ per 100,000. This is far higher on average than any other continent. Africa falls on the other end of the extreme, with most countries having fewer than 200 cancer cases per 100,000 people, spending less than 10% of domestic spending on healthcare, and mostly having cancer mortality rates less than 100 per 100,000 people. Asian and North American countries show more variation across these three metrics. There are Asian countries with incidence rates as low as 58 and as high as 800 per 100,000 people, with mortality rates as low as 26 and as high as 339, and with domestic spending as low as 2% and as high as 23%. Interestingly, Japan is the highest in Asian country in all 3 of these categories. Also of note is how South American countries are similarly compact in their level of domestic spending as European countries, with almost all falling between 10% and 20%, yet their incidence and mortality rates are far lower than Europe's. It goes to show that while there does appear to be a positive correlation domestic spending and incidence rates, there are clearly other factors in play too.
 
 ```{r}
 #| fig-width: 12
@@ -487,5 +490,5 @@ mosaic(incidence_rate_categorical_4 ~ avg_phy_rate_categorical_2 + avg_gdp_categ
        main = "Cancer Rates by GDP Spending and Doctors",
        cex.main = 0.5)
 ```
-Looking at how the cancer rates, amount of GDP spent on healthcare, and the number of physicians in the country, we can see some stark differences. Overwhelmingly, countries that spend less and have fewer doctors have lower rates of cancer. More than half of countries that spend less than 5% of their GDP and have 0 to 2 physicians per 1,000 people have lower than 100 cancer cases per 100,000. No country under these parameters has a cancer rate above 300 per 100,000. Notably, the limited number of countries that spend more than 10% of their GDP on healthcare but have 0 to 2 physicians per 1,000 people all have a cancer rate of less than 100. Contrarily, in countries with more than 2 physicians per 1,000 people, the cancer rates are much higher. On top of that, as these countries spend more of their GDP on healthcare, the cancer rates increase even more to the point that every single country that has more than 2 physicians per 1,000 people and spends more than 10% of their GDP has a cancer rate of 300 or more. The overwhelming majority of countries with 2 per 1,000 physicians that spend between 5-10% of their GDP also have cancer rates of more than 300 per 100,000. While this mosaic plot demonstrates a relationship between both GDP spending and cancer rates and number of physicians and cancer rate, it makes plain that the number of doctors has a much stronger relationship with cancer rates than the percent of a country's GDP is spent on healthcare. 
 
+Looking at how the cancer rates, amount of GDP spent on healthcare, and the number of physicians in the country, we can see some stark differences. Overwhelmingly, countries that spend less and have fewer doctors have lower rates of cancer. More than half of countries that spend less than 5% of their GDP and have 0 to 2 physicians per 1,000 people have lower than 100 cancer cases per 100,000. No country under these parameters has a cancer rate above 300 per 100,000. Notably, the limited number of countries that spend more than 10% of their GDP on healthcare but have 0 to 2 physicians per 1,000 people all have a cancer rate of less than 100. Contrarily, in countries with more than 2 physicians per 1,000 people, the cancer rates are much higher. On top of that, as these countries spend more of their GDP on healthcare, the cancer rates increase even more to the point that every single country that has more than 2 physicians per 1,000 people and spends more than 10% of their GDP has a cancer rate of 300 or more. The overwhelming majority of countries with 2 per 1,000 physicians that spend between 5-10% of their GDP also have cancer rates of more than 300 per 100,000. While this mosaic plot demonstrates a relationship between both GDP spending and cancer rates and number of physicians and cancer rate, it makes plain that the number of doctors has a much stronger relationship with cancer rates than the percent of a country's GDP is spent on healthcare.
