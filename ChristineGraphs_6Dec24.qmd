@@ -72,12 +72,14 @@ ggplot(PolicyIndicdenceMortality, aes(x =Value,y=Mortality_rate)) +
 ```{r}
 #| fig-height: 14
 #| fig-width: 14
+library(RColorBrewer)
 clevelandDotPlot <- PolicyIndicdenceMortality|>dplyr::select(Incidence_rate,Mortality_rate,Value,Country,Continent) |> pivot_longer(cols =!c(Value,Country,Continent),names_to = "RateType", values_to = "Rate" )
 
 
 ggplot(clevelandDotPlot, aes(x=Rate,y=fct_reorder2(Country,RateType=="Incidence_rate",Rate,.desc=FALSE), color =RateType)) +
   geom_point()+
-  facet_grid(Continent~Value, scales ="free_y",space="free_y")
+  facet_grid(Continent~Value, scales ="free_y",space="free_y")+
+  scale_colour_manual(values=c("darkred","red"))
 
 
 #note crude rate is per 100,000 in population 
@@ -96,7 +98,8 @@ clevelandDotPlot <- PolicyIndicdenceMortality|>dplyr::select(Incidence_cum_risk_
 
 ggplot(clevelandDotPlot, aes(x=Rate,y=fct_reorder2(Country,RateType=="Incidence_cum_risk_74",Rate,.desc=FALSE), color =RateType)) +
   geom_point()+
-  facet_grid(Continent~Value, scales ="free_y",space="free_y")
+  facet_grid(Continent~Value, scales ="free_y",space="free_y")+
+  scale_colour_manual(values=c("darkred","red"))
 
 #this is estimated cumulative risk percent
 
@@ -106,24 +109,130 @@ ggplot(clevelandDotPlot, aes(x=Rate,y=fct_reorder2(Country,RateType=="Incidence_
 ```
 
 ```{r}
+#| fig-height: 10
+#| fig-width: 10
+library(vcd)
+library()
 
-AllCancerData_lumps <- CDC_AllCancerData |> mutate(Estimate_Level = ifelse(Estimate>20, "High",ifelse(Estimate>10,"Mid", "Low")))
+AllCancerData_lumps <- CDC_AllCancerData |> mutate(Estimate_Level = ifelse(Estimate>20, "High",ifelse(Estimate>10,"Mid", "Low")))|> mutate(Color = ifelse(Estimate_Level == "High", "darkred",ifelse(Estimate_Level=="Mid", "red",ifelse(Estimate_Level=="Low", "orange",0))))
 
-
-
-pairs(table(AllCancerData_lumps[,c(3,6)]),highlighting = 2)
+AllCancerData_lumps$Color<-as.factor(AllCancerData_lumps$Color)
+#highlighting_colors <- brewer.pal(3, "Blues")[as.factor(cut(AllCancerData_lumps$Estimate_Level, breaks = 3))]
+#highlighting_colors = c("red","darkred","orange")
+pairs(table(AllCancerData_lumps[,c(3,6)]),col=c("red","darkred","orange"))
 
 ```
 
 ```{r}
+library(vcd)
+vcd::mosaic(Estimate_Level ~ Year,
+            data = AllCancerData_lumps,
+            direction = c("v", "h"),
+            highlighting_fill = RColorBrewer::brewer.pal(3, "Reds"))
+```
 
+```{r}
+#| fig-height: 10
+#| fig-width: 10
 AllCancerData_lumps_new <- AllCancerData_lumps |> filter(Group == c("Race","Race and Hispanic origin", "Veteran status"))
-pairs(table(AllCancerData_lumps_new[,c(1,3,6)]))
+
+pairs(table(AllCancerData_lumps_new[,c(1,3,6)]),highlighting =2)
 
 ```
 
 ```{r}
+#| fig.width = 12
+
+AllCancerData_lumps_new_4 <- AllCancerData_lumps |> filter(Group == c("Education","Employment status", "Poverty level")) 
+
+pairs(table(AllCancerData_lumps_new_4[,c(1,3,6)]),col=RColorBrewer::brewer.pal(5, "Reds"))
+
+vcd::mosaic(Estimate_Level ~ Group+Year,
+            data = AllCancerData_lumps_new_4,
+            direction = c("v", "v","h"),
+           highlighting_fill = c("darkred","pink"))
+
+
+#from chat gpt - be careful
+cut <- factor(AllCancerData_lumps_new_4$Year)  # Replace with your actual factor variable name
+
+# Create a custom color palette with as many colors as there are levels in 'cut'
+color_palette <- RColorBrewer::brewer.pal(length(unique(cut)), "Reds")
+
+# Now, use the 'cut' variable to color the pairs plot
+pairs(table(AllCancerData_lumps_new_4[, c(1, 3, 6)]), 
+      col = color_palette[cut])  # Assign color based on 'cut' factor
+
+```
+
+```{r}
+ggplot(AllCancerData_lumps_new_4,aes(Year,Estimate, color = Subgroup))+
+  geom_line()+
+  facet_wrap(~Group)
+
+Ed <- AllCancerData_lumps_new_4|>filter(Group == "Education") |> ggplot(aes(Year,Estimate, color=Subgroup))+geom_line()+theme(legend.position = "bottom")
+
+
+Emp <- AllCancerData_lumps_new_4|>filter(Group == "Employment status") |> ggplot(aes(Year,Estimate, color=Subgroup))+geom_line()+ theme(legend.position = "bottom")
+
+Emp
+
+Pov <- AllCancerData_lumps_new_4|>filter(Group == "Poverty level") |> ggplot(aes(Year,Estimate, color=Subgroup))+geom_line()+
+  theme(legend.position = "bottom")
+
+Pov
+library(gridExtra)
+
+gridExtra::grid.arrange(Ed,Emp,Pov, nrow = 3)
+```
+
+```{r}
+AllCancerData_lumps_age <- AllCancerData_lumps|>filter(Group == "Age groups with 65 years and older")|> dplyr::select(Subgroup,Year,Estimate,Estimate_Level)
+library(redav)
+redav::draw_biplot(AllCancerData_lumps_age)
+```
+
+```{r}
+CDC_CancerData_groups <- CDC_AllCancerData |>mutate(Group =ifelse(Group =="Poverty level", Group, ifelse(Group == "Race",Group,ifelse(Group=="Education status", Group, ifelse(Group=="Sex",Group,NA)))))|>na.omit()|> dplyr::select(Subgroup,Estimate,Year)|>pivot_wider(names_from=Year,values_from = Estimate)|>na.omit()|>pivot_longer(names_to="Year", cols=!Subgroup,values_to="Estimate")|>pivot_wider(names_from=Subgroup,values_from = Estimate)
+
+
+library(redav)
+redav::draw_biplot(CDC_CancerData_groups)
+```
+
+```{r}
+#| fig-height: 10
+#| fig-width: 10
 AgeGroups_Mosaic <- AllCancerData_lumps |> filter(Group == c("Age groups with 65 years and older", "Age groups with 75 years and older")) 
 
-pairs(table(AgeGroups_Mosaic[,c(1,6)]),highlighting = 2)
+pairs(table(AgeGroups_Mosaic[,c(1,6)]),highlighting =2)
+
+```
+
+```{r}
+library(parcoords)
+
+#CDC_CancerData_groups3 <- CDC_AllCancerData |> dplyr::select(Subgroup,Estimate,Year)|>pivot_wider(names_from=Year,values_from = Estimate)|>na.omit()|>pivot_longer(names_to="Year", cols=!Subgroup,values_to="Estimate")|>pivot_wider(names_from=Subgroup,values_from = Estimate)
+#parcoords(CDC_CancerData_groups3, 
+#          rownames = FALSE,    
+#          brushMode = "1D-axes-multi",    
+#          reorderable = TRUE,  
+#          alphaOnBrushed = 0.1, autoresize = TRUE,
+#          queue = TRUE)
+
+```
+
+```{r}
+
+CDC_CancerData_groups3 <- CDC_AllCancerData |>mutate(Subgroup = ifelse(Group== "Health insurance coverage: 65 years and older", paste(Subgroup,"(Above 65yo)"), ifelse(Group =="Health insurance coverage: Younger than 65 years", paste(Subgroup, "(Below 65yo)"), Subgroup)))|> dplyr::select(Subgroup,Estimate,Year)|>pivot_wider(names_from=Year,values_from = Estimate)|>na.omit()|>rename(Y2019="2019",Y2020="2020",Y2021="2021",Y2022="2022",Y2023="2023")#|>pivot_longer(names_to="Year", cols=!Subgroup,values_to="Estimate")|>pivot_wider(names_from=Subgroup,values_from = Estimate)
+
+CDC_CancerData_groups3<-CDC_CancerData_groups3[order(-CDC_CancerData_groups3$Y2019),]
+
+parcoords(CDC_CancerData_groups3, 
+          rownames = FALSE,    
+          brushMode = "1D-axes-multi",    
+          reorderable = TRUE,  
+          alphaOnBrushed = 0.1, autoresize = TRUE,
+          queue = TRUE,
+          color = "red")
 ```
