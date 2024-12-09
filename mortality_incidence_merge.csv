@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 "Country","Incidence_Number","Incidence_rate","Incidence_cum_risk_74","Mortality_Number","Mortality_rate","Mortality_cum_risk_74","Year"
 "Afghanistan",24275,59.6,11.2,16923,41.5,8.7,2022
 "Albania",8019,279.8,16,4955,172.9,10.4,2022
@@ -187,6 +188,8 @@
 "Zambia",15296,78.6,16.2,9770,50.2,11.3,2022
 "Total",19968749,253.4,20,9739428,123.6,9.6,2022
 =======
+=======
+>>>>>>> main
 Country,Incidence_Number,Incidence_rate,Incidence_cum_risk_74,Mortality_Number,Mortality_rate,Mortality_cum_risk_74,Year
 Afghanistan,24275,59.6,11.2,16923,41.5,8.7,2022
 Albania,8019,279.8,16,4955,172.9,10.4,2022
@@ -374,4 +377,7 @@ Samoa,400,197.8,25.5,208,102.9,13.9,2022
 Yemen,16525,53,8.4,11854,38.1,6.7,2022
 Zambia,15296,78.6,16.2,9770,50.2,11.3,2022
 Total,19968749,253.4,20,9739428,123.6,9.6,2022
+<<<<<<< HEAD
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main

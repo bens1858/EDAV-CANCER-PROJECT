@@ -1,13 +1,19 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Results
 =======
+=======
+>>>>>>> main
 \#
 
 ---
 title: "ChristineGraphs7Dec24"
 editor: visual
 ---
+<<<<<<< HEAD
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main
 
 ```{r}
 #| message: FALSE
@@ -23,8 +29,11 @@ OperationalPolicy <- OperationalPolicy |> mutate(Continent = countrycode(sourcev
 OperationalPolicy2021 <- OperationalPolicy |> filter(Period == "2021")|>dplyr::select(Value,Period,Location,Continent)|>rename(Country = "Location")
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 PolicyIndicdenceMortality <- full_join(OperationalPolicy2021, MortalityIncidenceMerge, join_by(Country)) |>filter(Incidence_rate != is.na(Incidence_rate), Value != is.na(Value))|> dplyr::select(Incidence_rate,Mortality_rate,Country,Value,Incidence_cum_risk_74,Mortality_cum_risk_74,Continent)
 =======
+=======
+>>>>>>> main
 PolicyIndicdenceMortality <- full_join(OperationalPolicy2021, MortalityIncidenceMerge, join_by(Country)) |>filter(Incidence_rate != is.na(Incidence_rate), Value != is.na(Value))|> dplyr::select(Incidence_rate,Mortality_rate,Country,Value,Incidence_cum_risk_74,Mortality_cum_risk_74,Continent)|>mutate(Value = ifelse(Value=="No","Operational Policy Does Not Exist", ifelse(Value=="Yes","Operational Policy Exists","No response")))
 
 
@@ -70,7 +79,10 @@ PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "French
 PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Micronesia"] <- "Oceania"
 
 
+<<<<<<< HEAD
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main
 ```
 
 ```{r}
@@ -150,7 +162,10 @@ One limitation of this data is that we are comparing the estimates across differ
 #| fig-height: 10
 #| fig-width: 10
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> main
 ggplot(AllCancerData_lumps_new_4, aes(x=Estimate,y=fct_reorder2(Subgroup,Estimate_Level=="Low",Estimate,.desc=FALSE), color =Estimate_Level)) +
   geom_point()+
   facet_grid(Group~., scales ="free_y",space="free_y")+
@@ -164,7 +179,10 @@ In this plot, it is visible that most subgroups consistently have the same estim
 ```{r}
 #| fig-height: 10
 #| fig-width: 10
+<<<<<<< HEAD
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main
 CDC_CancerData_groups <- CDC_AllCancerData |>mutate(Group =ifelse(Group =="Poverty level", Group, ifelse(Group == "Race",Group,ifelse(Group=="Education status", Group, ifelse(Group=="Sex",Group,NA)))))|>na.omit()|> dplyr::select(Subgroup,Estimate,Year)|>pivot_wider(names_from=Year,values_from = Estimate)|>na.omit()|>pivot_longer(names_to="Year", cols=!Subgroup,values_to="Estimate")|>pivot_wider(names_from=Subgroup,values_from = Estimate)
 
 
@@ -177,6 +195,7 @@ We can use a PCA plot to discover if certain subgroups may be correlated with on
 ```{r}
 #| message: FALSE
 <<<<<<< HEAD
+<<<<<<< HEAD
 #| fig-height: 10
 #| fig-width: 4
 library(parcoords)
@@ -185,6 +204,8 @@ CDC_CancerData_groups3 <- CDC_AllCancerData |>mutate(Subgroup = ifelse(Group== "
 CDC_CancerData_groups3<-CDC_CancerData_groups3[order(-CDC_CancerData_groups3$Y2019),]
 
 =======
+=======
+>>>>>>> main
 #| fig.width: 8
 library(parcoords)
 CDC_CancerData_groups3 <- CDC_AllCancerData |>mutate(Subgroup = ifelse(Group== "Health insurance coverage: 65 years and older", paste(Subgroup,"(Above 65yo)"), ifelse(Group =="Health insurance coverage: Younger than 65 years", paste(Subgroup, "(Below 65yo)"), Subgroup)))|> dplyr::select(Group, Subgroup,Estimate,Year)|>pivot_wider(names_from=Year,values_from = Estimate)|>na.omit()|>rename(Y2019="2019",Y2020="2020",Y2021="2021",Y2022="2022",Y2023="2023")|>dplyr::select(Group,Y2019,Y2020,Y2021,Y2022,Y2023)
@@ -192,7 +213,10 @@ CDC_CancerData_groups3 <- CDC_AllCancerData |>mutate(Subgroup = ifelse(Group== "
 
 
 PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Antigua and Barbuda"] <- "North America"
+<<<<<<< HEAD
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main
 parcoords(CDC_CancerData_groups3, 
           rownames = FALSE,    
           brushMode = "1D-axes-multi",    
@@ -201,6 +225,7 @@ parcoords(CDC_CancerData_groups3,
           autoresize = TRUE,
           queue = TRUE,
           color = "red",
+<<<<<<< HEAD
 <<<<<<< HEAD
           height=1600,
           width=1600)
@@ -577,6 +602,8 @@ mosaic(incidence_rate_categorical_4 ~ avg_phy_rate_categorical_2 + avg_gdp_categ
 
 Looking at how the cancer rates, amount of GDP spent on healthcare, and the number of physicians in the country, we can see some stark differences. Overwhelmingly, countries that spend less and have fewer doctors have lower rates of cancer. More than half of countries that spend less than 5% of their GDP and have 0 to 2 physicians per 1,000 people have lower than 100 cancer cases per 100,000. No country under these parameters has a cancer rate above 300 per 100,000. Notably, the limited number of countries that spend more than 10% of their GDP on healthcare but have 0 to 2 physicians per 1,000 people all have a cancer rate of less than 100. Contrarily, in countries with more than 2 physicians per 1,000 people, the cancer rates are much higher. On top of that, as these countries spend more of their GDP on healthcare, the cancer rates increase even more to the point that every single country that has more than 2 physicians per 1,000 people and spends more than 10% of their GDP has a cancer rate of 300 or more. The overwhelming majority of countries with 2 per 1,000 physicians that spend between 5-10% of their GDP also have cancer rates of more than 300 per 100,000. While this mosaic plot demonstrates a relationship between both GDP spending and cancer rates and number of physicians and cancer rate, it makes plain that the number of doctors has a much stronger relationship with cancer rates than the percent of a country's GDP is spent on healthcare.
 =======
+=======
+>>>>>>> main
           margin = list(left = 225))
 
 
@@ -585,4 +612,7 @@ Looking at how the cancer rates, amount of GDP spent on healthcare, and the numb
 ```
 
 By plotting all subgroups on the parallel coordinates plot, we can identify which subgroups have which estimate percent per year for cancer. Additionally, we are able to see that for most subgroups, the cancer rate stays the same across the sample years. We only see a change in cancer rate for the Alaska Native and White, health insurance subgroups and without disability subgroups. This graph gives an overview time series for all groups and is what we chose to build our d3 interactive plot from. This can be a starting point that allows the observer to identify which individual subgroups to explore more closely to see cancer rates over the years.
+<<<<<<< HEAD
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main

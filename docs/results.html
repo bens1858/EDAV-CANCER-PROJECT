@@ -8,10 +8,14 @@
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <title>3&nbsp; Results – EDAV-CANCER-PROJECT</title>
 =======
 <title>3&nbsp; editor: visual – EDAV-CANCER-PROJECT</title>
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+<title>3&nbsp; editor: visual – EDAV-CANCER-PROJECT</title>
+>>>>>>> main
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,10 +111,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
 
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+>>>>>>> main
 <script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 
 <link href="site_libs/parallel-coordinates-2.1.8/parcoords.css" rel="stylesheet">
@@ -131,10 +140,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./results.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Results</span></a></li></ol></nav>
 =======
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./results.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">ChristineGraphs7Dec24</span></a></li></ol></nav>
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./results.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">ChristineGraphs7Dec24</span></a></li></ol></nav>
+>>>>>>> main
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -223,11 +236,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <p>#</p>
 <hr>
 <p>title: “ChristineGraphs7Dec24”</p>
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+<p>#</p>
+<hr>
+<p>title: “ChristineGraphs7Dec24”</p>
+>>>>>>> main
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -243,8 +262,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>OperationalPolicy2021 <span class="ot">&lt;-</span> OperationalPolicy <span class="sc">|&gt;</span> <span class="fu">filter</span>(Period <span class="sc">==</span> <span class="st">"2021"</span>)<span class="sc">|&gt;</span>dplyr<span class="sc">::</span><span class="fu">select</span>(Value,Period,Location,Continent)<span class="sc">|&gt;</span><span class="fu">rename</span>(<span class="at">Country =</span> <span class="st">"Location"</span>)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>PolicyIndicdenceMortality <span class="ot">&lt;-</span> <span class="fu">full_join</span>(OperationalPolicy2021, MortalityIncidenceMerge, <span class="fu">join_by</span>(Country)) <span class="sc">|&gt;</span><span class="fu">filter</span>(Incidence_rate <span class="sc">!=</span> <span class="fu">is.na</span>(Incidence_rate), Value <span class="sc">!=</span> <span class="fu">is.na</span>(Value))<span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Incidence_rate,Mortality_rate,Country,Value,Incidence_cum_risk_74,Mortality_cum_risk_74,Continent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 =======
+=======
+>>>>>>> main
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>PolicyIndicdenceMortality <span class="ot">&lt;-</span> <span class="fu">full_join</span>(OperationalPolicy2021, MortalityIncidenceMerge, <span class="fu">join_by</span>(Country)) <span class="sc">|&gt;</span><span class="fu">filter</span>(Incidence_rate <span class="sc">!=</span> <span class="fu">is.na</span>(Incidence_rate), Value <span class="sc">!=</span> <span class="fu">is.na</span>(Value))<span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Incidence_rate,Mortality_rate,Country,Value,Incidence_cum_risk_74,Mortality_cum_risk_74,Continent)<span class="sc">|&gt;</span><span class="fu">mutate</span>(<span class="at">Value =</span> <span class="fu">ifelse</span>(Value<span class="sc">==</span><span class="st">"No"</span>,<span class="st">"Operational Policy Does Not Exist"</span>, <span class="fu">ifelse</span>(Value<span class="sc">==</span><span class="st">"Yes"</span>,<span class="st">"Operational Policy Exists"</span>,<span class="st">"No response"</span>)))</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
@@ -288,7 +310,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>PolicyIndicdenceMortality<span class="sc">$</span>Continent[PolicyIndicdenceMortality<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Venezuela"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
 <span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>PolicyIndicdenceMortality<span class="sc">$</span>Continent[PolicyIndicdenceMortality<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"French Guiana"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
 <span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>PolicyIndicdenceMortality<span class="sc">$</span>Continent[PolicyIndicdenceMortality<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Micronesia"</span>] <span class="ot">&lt;-</span> <span class="st">"Oceania"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<<<<<<< HEAD
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main
 </details>
 </div>
 <div class="cell">
@@ -391,19 +416,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <details class="code-fold">
 <summary>Code</summary>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>CDC_CancerData_groups <span class="ot">&lt;-</span> CDC_AllCancerData <span class="sc">|&gt;</span><span class="fu">mutate</span>(<span class="at">Group =</span><span class="fu">ifelse</span>(Group <span class="sc">==</span><span class="st">"Poverty level"</span>, Group, <span class="fu">ifelse</span>(Group <span class="sc">==</span> <span class="st">"Race"</span>,Group,<span class="fu">ifelse</span>(Group<span class="sc">==</span><span class="st">"Education status"</span>, Group, <span class="fu">ifelse</span>(Group<span class="sc">==</span><span class="st">"Sex"</span>,Group,<span class="cn">NA</span>)))))<span class="sc">|&gt;</span><span class="fu">na.omit</span>()<span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Subgroup,Estimate,Year)<span class="sc">|&gt;</span><span class="fu">pivot_wider</span>(<span class="at">names_from=</span>Year,<span class="at">values_from =</span> Estimate)<span class="sc">|&gt;</span><span class="fu">na.omit</span>()<span class="sc">|&gt;</span><span class="fu">pivot_longer</span>(<span class="at">names_to=</span><span class="st">"Year"</span>, <span class="at">cols=</span><span class="sc">!</span>Subgroup,<span class="at">values_to=</span><span class="st">"Estimate"</span>)<span class="sc">|&gt;</span><span class="fu">pivot_wider</span>(<span class="at">names_from=</span>Subgroup,<span class="at">values_from =</span> Estimate)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(redav)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>redav<span class="sc">::</span><span class="fu">draw_biplot</span>(CDC_CancerData_groups)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 =======
+=======
+>>>>>>> main
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(AllCancerData_lumps_new_4, <span class="fu">aes</span>(<span class="at">x=</span>Estimate,<span class="at">y=</span><span class="fu">fct_reorder2</span>(Subgroup,Estimate_Level<span class="sc">==</span><span class="st">"Low"</span>,Estimate,<span class="at">.desc=</span><span class="cn">FALSE</span>), <span class="at">color =</span>Estimate_Level)) <span class="sc">+</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Group<span class="sc">~</span>., <span class="at">scales =</span><span class="st">"free_y"</span>,<span class="at">space=</span><span class="st">"free_y"</span>)<span class="sc">+</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"darkred"</span>,<span class="st">"red"</span>))<span class="sc">+</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Incidence Rate"</span>, <span class="st">"Mortality Rate"</span>))<span class="sc">+</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Estimate Cumlative Incidence and Mortality Risk at 74 Years of Age"</span>, <span class="at">x =</span> <span class="st">"Rate per 100,000"</span>, <span class="at">y=</span> <span class="st">"Country"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<<<<<<< HEAD
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main
 </details>
 <div class="cell-output-display">
 <div>
@@ -414,7 +445,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> main
 <p>In this plot, it is visible that most subgroups consistently have the same estimated level of cancer indicating there is correlation in subgroups across years. This plot includes data for all years. Rows that have multiple data points include multiple years and it is evident that across years, the estimated level of cancer is consistent for all groups except &gt;= 200 FPL. Additionally, there is a clear disparity for cancer rate among the people who fall into not employed and has never worked, full-time, employed, part-time and those who are not employed or not employed but worked previously. The latter have a higher cancer rate than the former. This is may be due to the fact that some people cannot work due to having cancer which is why the not employed groups are higher.</p>
 <div class="cell">
 <details class="code-fold">
@@ -433,11 +467,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<<<<<<< HEAD
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main
 <p>We can use a PCA plot to discover if certain subgroups may be correlated with one another in terms of cancer estimates. It may be possible that the correlation comes individuals who belong to one subgroup may belong to the second subgroup. It seems that the subgroup Asian only could be correlated with cancer estimates with the &gt;= 200% FPL and White Only subgroup. While the subgroups &lt;100% FPL and Alaska Native and White may be correlated. This graph is not meant to imply resulting causation but can be leveraged to look into how different subgroups over lap and if overlapping subgroups may have higher or lower rates of cancer.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parcoords)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>CDC_CancerData_groups3 <span class="ot">&lt;-</span> CDC_AllCancerData <span class="sc">|&gt;</span><span class="fu">mutate</span>(<span class="at">Subgroup =</span> <span class="fu">ifelse</span>(Group<span class="sc">==</span> <span class="st">"Health insurance coverage: 65 years and older"</span>, <span class="fu">paste</span>(Subgroup,<span class="st">"(Above 65yo)"</span>), <span class="fu">ifelse</span>(Group <span class="sc">==</span><span class="st">"Health insurance coverage: Younger than 65 years"</span>, <span class="fu">paste</span>(Subgroup, <span class="st">"(Below 65yo)"</span>), Subgroup)))<span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Group, Subgroup,Estimate,Year)<span class="sc">|&gt;</span><span class="fu">pivot_wider</span>(<span class="at">names_from=</span>Year,<span class="at">values_from =</span> Estimate)<span class="sc">|&gt;</span><span class="fu">na.omit</span>()<span class="sc">|&gt;</span><span class="fu">rename</span>(<span class="at">Y2019=</span><span class="st">"2019"</span>,<span class="at">Y2020=</span><span class="st">"2020"</span>,<span class="at">Y2021=</span><span class="st">"2021"</span>,<span class="at">Y2022=</span><span class="st">"2022"</span>,<span class="at">Y2023=</span><span class="st">"2023"</span>)</span>
@@ -888,6 +926,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Looking at how the cancer rates, amount of GDP spent on healthcare, and the number of physicians in the country, we can see some stark differences. Overwhelmingly, countries that spend less and have fewer doctors have lower rates of cancer. More than half of countries that spend less than 5% of their GDP and have 0 to 2 physicians per 1,000 people have lower than 100 cancer cases per 100,000. No country under these parameters has a cancer rate above 300 per 100,000. Notably, the limited number of countries that spend more than 10% of their GDP on healthcare but have 0 to 2 physicians per 1,000 people all have a cancer rate of less than 100. Contrarily, in countries with more than 2 physicians per 1,000 people, the cancer rates are much higher. On top of that, as these countries spend more of their GDP on healthcare, the cancer rates increase even more to the point that every single country that has more than 2 physicians per 1,000 people and spends more than 10% of their GDP has a cancer rate of 300 or more. The overwhelming majority of countries with 2 per 1,000 physicians that spend between 5-10% of their GDP also have cancer rates of more than 300 per 100,000. While this mosaic plot demonstrates a relationship between both GDP spending and cancer rates and number of physicians and cancer rate, it makes plain that the number of doctors has a much stronger relationship with cancer rates than the percent of a country’s GDP is spent on healthcare.</p>
 =======
+=======
+>>>>>>> main
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parcoords)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>CDC_CancerData_groups3 <span class="ot">&lt;-</span> CDC_AllCancerData <span class="sc">|&gt;</span><span class="fu">mutate</span>(<span class="at">Subgroup =</span> <span class="fu">ifelse</span>(Group<span class="sc">==</span> <span class="st">"Health insurance coverage: 65 years and older"</span>, <span class="fu">paste</span>(Subgroup,<span class="st">"(Above 65yo)"</span>), <span class="fu">ifelse</span>(Group <span class="sc">==</span><span class="st">"Health insurance coverage: Younger than 65 years"</span>, <span class="fu">paste</span>(Subgroup, <span class="st">"(Below 65yo)"</span>), Subgroup)))<span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Group, Subgroup,Estimate,Year)<span class="sc">|&gt;</span><span class="fu">pivot_wider</span>(<span class="at">names_from=</span>Year,<span class="at">values_from =</span> Estimate)<span class="sc">|&gt;</span><span class="fu">na.omit</span>()<span class="sc">|&gt;</span><span class="fu">rename</span>(<span class="at">Y2019=</span><span class="st">"2019"</span>,<span class="at">Y2020=</span><span class="st">"2020"</span>,<span class="at">Y2021=</span><span class="st">"2021"</span>,<span class="at">Y2022=</span><span class="st">"2022"</span>,<span class="at">Y2023=</span><span class="st">"2023"</span>)<span class="sc">|&gt;</span>dplyr<span class="sc">::</span><span class="fu">select</span>(Group,Y2019,Y2020,Y2021,Y2022,Y2023)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -910,7 +950,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>By plotting all subgroups on the parallel coordinates plot, we can identify which subgroups have which estimate percent per year for cancer. Additionally, we are able to see that for most subgroups, the cancer rate stays the same across the sample years. We only see a change in cancer rate for the Alaska Native and White, health insurance subgroups and without disability subgroups. This graph gives an overview time series for all groups and is what we chose to build our d3 interactive plot from. This can be a starting point that allows the observer to identify which individual subgroups to explore more closely to see cancer rates over the years.</p>
+<<<<<<< HEAD
 >>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
+=======
+>>>>>>> main
 
 
 
