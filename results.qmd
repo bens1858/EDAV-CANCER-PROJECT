@@ -1,4 +1,13 @@
+<<<<<<< HEAD
 # Results
+=======
+\#
+
+---
+title: "ChristineGraphs7Dec24"
+editor: visual
+---
+>>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
 
 ```{r}
 #| message: FALSE
@@ -13,7 +22,55 @@ CDC_AllCancerData <- read_csv("CDC_AllCancerData.csv")|> filter(Estimate!="N/A")
 OperationalPolicy <- OperationalPolicy |> mutate(Continent = countrycode(sourcevar = Location,origin = "country.name",destination = "continent"))
 OperationalPolicy2021 <- OperationalPolicy |> filter(Period == "2021")|>dplyr::select(Value,Period,Location,Continent)|>rename(Country = "Location")
 
+<<<<<<< HEAD
 PolicyIndicdenceMortality <- full_join(OperationalPolicy2021, MortalityIncidenceMerge, join_by(Country)) |>filter(Incidence_rate != is.na(Incidence_rate), Value != is.na(Value))|> dplyr::select(Incidence_rate,Mortality_rate,Country,Value,Incidence_cum_risk_74,Mortality_cum_risk_74,Continent)
+=======
+PolicyIndicdenceMortality <- full_join(OperationalPolicy2021, MortalityIncidenceMerge, join_by(Country)) |>filter(Incidence_rate != is.na(Incidence_rate), Value != is.na(Value))|> dplyr::select(Incidence_rate,Mortality_rate,Country,Value,Incidence_cum_risk_74,Mortality_cum_risk_74,Continent)|>mutate(Value = ifelse(Value=="No","Operational Policy Does Not Exist", ifelse(Value=="Yes","Operational Policy Exists","No response")))
+
+
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Antigua and Barbuda"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Bahamas"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Barbados"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Belize"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Canada"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Costa Rica"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Cuba"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Dominica"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Dominican Republic"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "El Salvador"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Grenada"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Guatemala"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Haiti"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Honduras"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Jamaica"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Mexico"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Nicaragua"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Panama"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Saint Kitts and Nevis"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Saint Lucia"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Saint Vincent & Grenadines"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Trinidad and Tobago"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "United States of America"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Guadeloupe"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Martinique"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Puerto Rico"] <- "North America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Argentina"] <- "South America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Bolivia"] <- "South America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Brazil"] <- "South America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Chile"] <- "South America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Colombia"] <- "South America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Ecuador"] <- "South America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Guyana"] <- "South America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Paraguay"] <- "South America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Peru"] <- "South America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Suriname"] <- "South America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Uruguay"] <- "South America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Venezuela"] <- "South America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "French Guiana"] <- "South America"
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Micronesia"] <- "Oceania"
+
+
+>>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
 ```
 
 ```{r}
@@ -92,6 +149,22 @@ One limitation of this data is that we are comparing the estimates across differ
 ```{r}
 #| fig-height: 10
 #| fig-width: 10
+<<<<<<< HEAD
+=======
+ggplot(AllCancerData_lumps_new_4, aes(x=Estimate,y=fct_reorder2(Subgroup,Estimate_Level=="Low",Estimate,.desc=FALSE), color =Estimate_Level)) +
+  geom_point()+
+  facet_grid(Group~., scales ="free_y",space="free_y")+
+  scale_colour_manual(values=c("darkred","red"))+
+  scale_fill_manual(labels = c("Incidence Rate", "Mortality Rate"))+
+  labs(title="Estimate Cumlative Incidence and Mortality Risk at 74 Years of Age", x = "Rate per 100,000", y= "Country")
+```
+
+In this plot, it is visible that most subgroups consistently have the same estimated level of cancer indicating there is correlation in subgroups across years. This plot includes data for all years. Rows that have multiple data points include multiple years and it is evident that across years, the estimated level of cancer is consistent for all groups except \>= 200 FPL. Additionally, there is a clear disparity for cancer rate among the people who fall into not employed and has never worked, full-time, employed, part-time and those who are not employed or not employed but worked previously. The latter have a higher cancer rate than the former. This is may be due to the fact that some people cannot work due to having cancer which is why the not employed groups are higher.
+
+```{r}
+#| fig-height: 10
+#| fig-width: 10
+>>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
 CDC_CancerData_groups <- CDC_AllCancerData |>mutate(Group =ifelse(Group =="Poverty level", Group, ifelse(Group == "Race",Group,ifelse(Group=="Education status", Group, ifelse(Group=="Sex",Group,NA)))))|>na.omit()|> dplyr::select(Subgroup,Estimate,Year)|>pivot_wider(names_from=Year,values_from = Estimate)|>na.omit()|>pivot_longer(names_to="Year", cols=!Subgroup,values_to="Estimate")|>pivot_wider(names_from=Subgroup,values_from = Estimate)
 
 
@@ -103,6 +176,7 @@ We can use a PCA plot to discover if certain subgroups may be correlated with on
 
 ```{r}
 #| message: FALSE
+<<<<<<< HEAD
 #| fig-height: 10
 #| fig-width: 4
 library(parcoords)
@@ -110,6 +184,15 @@ CDC_CancerData_groups3 <- CDC_AllCancerData |>mutate(Subgroup = ifelse(Group== "
 
 CDC_CancerData_groups3<-CDC_CancerData_groups3[order(-CDC_CancerData_groups3$Y2019),]
 
+=======
+#| fig.width: 8
+library(parcoords)
+CDC_CancerData_groups3 <- CDC_AllCancerData |>mutate(Subgroup = ifelse(Group== "Health insurance coverage: 65 years and older", paste(Subgroup,"(Above 65yo)"), ifelse(Group =="Health insurance coverage: Younger than 65 years", paste(Subgroup, "(Below 65yo)"), Subgroup)))|> dplyr::select(Group, Subgroup,Estimate,Year)|>pivot_wider(names_from=Year,values_from = Estimate)|>na.omit()|>rename(Y2019="2019",Y2020="2020",Y2021="2021",Y2022="2022",Y2023="2023")|>dplyr::select(Group,Y2019,Y2020,Y2021,Y2022,Y2023)
+
+
+
+PolicyIndicdenceMortality$Continent[PolicyIndicdenceMortality$Country == "Antigua and Barbuda"] <- "North America"
+>>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe
 parcoords(CDC_CancerData_groups3, 
           rownames = FALSE,    
           brushMode = "1D-axes-multi",    
@@ -118,6 +201,7 @@ parcoords(CDC_CancerData_groups3,
           autoresize = TRUE,
           queue = TRUE,
           color = "red",
+<<<<<<< HEAD
           height=1600,
           width=1600)
 ```
@@ -492,3 +576,13 @@ mosaic(incidence_rate_categorical_4 ~ avg_phy_rate_categorical_2 + avg_gdp_categ
 ```
 
 Looking at how the cancer rates, amount of GDP spent on healthcare, and the number of physicians in the country, we can see some stark differences. Overwhelmingly, countries that spend less and have fewer doctors have lower rates of cancer. More than half of countries that spend less than 5% of their GDP and have 0 to 2 physicians per 1,000 people have lower than 100 cancer cases per 100,000. No country under these parameters has a cancer rate above 300 per 100,000. Notably, the limited number of countries that spend more than 10% of their GDP on healthcare but have 0 to 2 physicians per 1,000 people all have a cancer rate of less than 100. Contrarily, in countries with more than 2 physicians per 1,000 people, the cancer rates are much higher. On top of that, as these countries spend more of their GDP on healthcare, the cancer rates increase even more to the point that every single country that has more than 2 physicians per 1,000 people and spends more than 10% of their GDP has a cancer rate of 300 or more. The overwhelming majority of countries with 2 per 1,000 physicians that spend between 5-10% of their GDP also have cancer rates of more than 300 per 100,000. While this mosaic plot demonstrates a relationship between both GDP spending and cancer rates and number of physicians and cancer rate, it makes plain that the number of doctors has a much stronger relationship with cancer rates than the percent of a country's GDP is spent on healthcare.
+=======
+          margin = list(left = 225))
+
+
+
+
+```
+
+By plotting all subgroups on the parallel coordinates plot, we can identify which subgroups have which estimate percent per year for cancer. Additionally, we are able to see that for most subgroups, the cancer rate stays the same across the sample years. We only see a change in cancer rate for the Alaska Native and White, health insurance subgroups and without disability subgroups. This graph gives an overview time series for all groups and is what we chose to build our d3 interactive plot from. This can be a starting point that allows the observer to identify which individual subgroups to explore more closely to see cancer rates over the years.
+>>>>>>> 10064a70e5bf29473b4307160c96c5f14ff9d3fe

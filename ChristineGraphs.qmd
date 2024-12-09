@@ -1,0 +1,172 @@
+---
+title: "ChristineGraphs"
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+OperationalPolicy <- read_csv("OperationalPolicy.csv")
+USOperationalPolicy <- OperationalPolicy|> filter(Location=="United States of America")
+
+MortalityIncidenceMerge <- read_csv("mortality_incidence_merge.csv")
+```
+
+```{r}
+CDC_AllCancerData <- read_csv("CDC_AllCancerData.csv")|> filter(Estimate!="N/A")|>mutate(Estimate = as.numeric(Estimate))
+```
+
+```{r}
+Veteran_AllCancerData <- CDC_AllCancerData |> filter(Group == "Veteran status") |> mutate(Year = factor(Year))|>dplyr::select(Year,Subgroup,Estimate)
+
+ggplot(Veteran_AllCancerData, aes(x =Year,y=Estimate)) +
+  geom_col()+
+  facet_wrap(.~Subgroup)
+  
+
+
+```
+
+```{r}
+
+Race_AllCancerData <- CDC_AllCancerData |> filter(Group == "Race") |> mutate(Year = factor(Year))|>dplyr::select(Year,Subgroup,Estimate)
+
+ggplot(Race_AllCancerData, aes(x =Year,y=Estimate)) +
+  geom_col()+
+  facet_wrap(.~Subgroup)
+  
+
+```
+
+```{r}
+library(ggplot2)
+library(ggalluvial)
+
+Alluvial <- CDC_AllCancerData|> filter(Group == c("Poverty level","Race","Veteran status")) |> pivot_wider(names_from = Group,values_from = Subgroup) |> rename(PovertyLevel="Poverty level", VeteranStatus="Veteran status") #|> pivot_wider(names_from = ,values_from = Estimate) 
+
+ggplot(Alluvial, aes(axis1 = Race, axis2 = PovertyLevel, axis3 = VeteranStatus, y = Estimate))+
+         geom_alluvium(aes(fill = Year), width = 1/12)+
+         geom_stratum()+
+         geom_text(stat = "stratum", aes(label = after_stat(stratum))) #+
+         #scale_x_discrete(limits = c("Essay 1", "Essay 2", "Essay 3"))+
+        #ggtitle("3 Essays Colored by Average GPA")
+
+```
+
+```{r}
+
+library(ggplot2)
+
+
+
+
+
+```
+
+```{r}
+OperationalPolicy2021 <- OperationalPolicy |> filter(Period == "2021")|>dplyr::select(Value,Period,Location)|>rename(Country = "Location")
+
+PolicyIndicdenceMortality <- full_join(OperationalPolicy2021, MortalityIncidenceMerge, join_by(Country)) |>filter(Incidence_rate != is.na(Incidence_rate), Value != is.na(Value))|> dplyr::select(Incidence_rate,Mortality_rate,Country,Value,Incidence_cum_risk_74,Mortality_cum_risk_74)
+
+
+ggplot(PolicyIndicdenceMortality, aes(x =Value,y=Incidence_rate)) +
+  geom_col()
+
+ggplot(PolicyIndicdenceMortality, aes(x =Value,y=Mortality_rate)) +
+  geom_col()
+
+
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+
+clevelandDotPlot <- PolicyIndicdenceMortality|>dplyr::select(Incidence_rate,Mortality_rate,Value,Country) |> pivot_longer(cols =!c(Value,Country),names_to = "RateType", values_to = "Rate" )
+
+
+ggplot(clevelandDotPlot, aes(x=Rate,y=fct_reorder2(Country,RateType=="Incidence_rate",Rate,.desc=FALSE), color =RateType)) +
+  geom_point()+
+  facet_grid(Value~ ., scales ="free_y",space="free_y")
+
+
+#note crude rate is per 100,000 in population 
+
+#no visible correlation
+# plot by region of the world
+
+# operational policy may have adequate treatment to prevent moratality
+```
+
+```{r}
+
+clevelandDotPlot <- PolicyIndicdenceMortality|>dplyr::select(Incidence_cum_risk_74,Mortality_cum_risk_74,Value,Country) |> pivot_longer(cols =!c(Value,Country),names_to = "RateType", values_to = "Rate" )
+
+
+ggplot(clevelandDotPlot, aes(x=Rate,y=fct_reorder2(Country,RateType=="Incidence_cum_risk_74",Rate,.desc=FALSE), color =RateType)) +
+  geom_point()+
+  facet_grid(Value~ ., scales ="free_y",space="free_y")
+
+#this is estimated cumulative risk percent
+
+
+
+
+```
+
+```{r}
+# try mosaic plot on all data
+
+library(AER)
+library(vcd)
+
+mosaic_AllCancerData <- CDC_AllCancerData |>filter(Group=="Disability status")|>pivot_wider(names_from=Subgroup,values_from=Estimate)|>rename(WithDisability = "With disability", WithoutDisability = "Without disability") #|> pivot_wider(names_from=Group,values_from=c(Subgroup,Estimate))
+
+#pairs(table(mosaic_AllCancerData[,c(3:42)]),highlighting = 2)
+
+
+#mosaic(~freerepat,data = DoctorVisits,split_vertical=TRUE , main = "Mosaic plot for numvisits vs freerepat",labeling = labeling_values)
+
+mosaic(~Year + WithDisability + WithoutDisability,
+       data = mosaic_AllCancerData,
+       split_vertical=TRUE , 
+       main = "Test",
+       labeling = labeling_values(suppress = TRUE),
+       direction = c("v","v","h"),
+       highlighting = "Year",
+       highlighting_fill = c("lightblue", "pink", "orange","red","blue"))
+```
+
+```{r}
+
+AllCancerData_lumps <- CDC_AllCancerData |> mutate(Estimate_Level = ifelse(Estimate>20, "High",ifelse(Estimate>10,"Mid", "Low")))
+
+#AllCancerData_lumps$Estimate <- fct_lump_prop(factor(AllCancerData_lumps$Estimate),prop = 0.02)
+
+pairs(table(AllCancerData_lumps[,c(3,6)]),highlighting = 2)
+
+```
+
+```{r}
+
+AllCancerData_lumps_new <- AllCancerData_lumps |> filter(Group == c("Race","Race and Hispanic origin", "Veteran status"))
+pairs(table(AllCancerData_lumps_new[,c(1,3,6)]),highlighting = 2)
+
+```
+
+```{r}
+AgeGroups_Mosaic <- AllCancerData_lumps |> filter(Group == c("Age groups with 65 years and older", "Age groups with 75 years and older")) 
+
+pairs(table(AgeGroups_Mosaic[,c(1,6)]),highlighting = 2)
+```
+
+```{r}
+
+AllCancerData_lumps_mosaic<- AllCancerData_lumps |> dplyr::select(Estimate_Level,Year, Group)|>pivot_wider(names_from = "Group", values_from = "Estimate_Level")
+
+pairs(table(AllCancerData_lumps[,c(1,2)]),highlighting = 2)
+
+```
