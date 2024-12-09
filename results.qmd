@@ -96,7 +96,7 @@ cancer_mortality_2022 <- read.csv("cancer_mortality_2022.csv")
 cancer_mortality_2022 |> 
   select(Label, Number, Crude.rate, Cumulative.risk) -> cancer_mortality_2022_cut
 
-colnames(cancer_mortality_2022_cut) <- c("Country", "Mortality_Number", "Mortality_rate", "Mortality_cum_risk_74")
+colnames(cancer_mortality_2022_cut) <- c("Country", "Mortality_Number", "Mortality_rate", "Mortality_cum_risk_74") 
 
 #Incidence Data
 #write.csv(cancer_incidence_2022, "cancer_incidence_2022.csv")
