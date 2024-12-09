@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -169,6 +203,420 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(countries)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapproj)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcd)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parcoords)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(countrycode)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Data cleaning and merging</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Import health personnel data</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>un_health_personnel <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"un_health_personnel.csv"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>un_health_personnel <span class="sc">|&gt;</span> </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Series <span class="sc">==</span> <span class="st">"Health personnel: Physicians (number)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Region.Country.Area, Year, Value)<span class="ot">-&gt;</span> un_physicians_raw</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>un_health_personnel <span class="sc">|&gt;</span> </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Series <span class="sc">==</span> <span class="st">"Health personnel: Physicians (per 1000 population)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Region.Country.Area, Year, Value) <span class="ot">-&gt;</span> un_physicians_proportion</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#Merge data</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>un_physicians_merge <span class="ot">&lt;-</span> <span class="fu">full_join</span>(un_physicians_raw, un_physicians_proportion, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Region.Country.Area"</span>, <span class="st">"Year"</span>))</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#Rename columns</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(un_physicians_merge) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Country"</span>, <span class="st">"Year"</span>, <span class="st">"Physicans_raw"</span>, <span class="st">"Physicians_per_1000"</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">#remove commas from physicians_raw and convert to numeric</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>un_physicians_merge<span class="sc">$</span>Physicans_raw <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">""</span>, un_physicians_merge<span class="sc">$</span>Physicans_raw)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>un_physicians_merge<span class="sc">$</span>Physicans_raw <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(un_physicians_merge<span class="sc">$</span>Physicans_raw)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>un_physicians_merge<span class="sc">$</span>Physicians_per_1000 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(un_physicians_merge<span class="sc">$</span>Physicians_per_1000)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Import health expenditure data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(un_health_expenditure, "un_health_expenditure.csv")</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>un_health_expenditure <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"un_health_expenditure.csv"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>un_health_expenditure <span class="sc">|&gt;</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Series <span class="sc">==</span> <span class="st">"Current health expenditure (% of GDP)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Region.Country.Area, Year, Value)<span class="ot">-&gt;</span> un_gdp_expenditure</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>un_health_expenditure <span class="sc">|&gt;</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Series <span class="sc">==</span> <span class="st">"Domestic general government health expenditure (% of total government expenditure)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Region.Country.Area, Year, Value, Footnotes) <span class="ot">-&gt;</span> un_domestic_expenditure</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Merge data</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>un_expenditure_merge <span class="ot">&lt;-</span> <span class="fu">full_join</span>(un_gdp_expenditure, un_domestic_expenditure, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Region.Country.Area"</span>, <span class="st">"Year"</span>))</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Rename columns</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(un_expenditure_merge) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Country"</span>, <span class="st">"Year"</span>, <span class="st">"Pct_GDP"</span>, <span class="st">"Pct_Domestic"</span>, <span class="st">"Footnotes"</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Merge both datasets</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>physicians_expenditure <span class="ot">&lt;-</span> <span class="fu">full_join</span>(un_physicians_merge, un_expenditure_merge, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Country"</span>, <span class="st">"Year"</span>))</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Change Country Names</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Bolivia (Plurin. State of)"</span>] <span class="ot">&lt;-</span> <span class="st">"Bolivia"</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Brunei Darussalam"</span>] <span class="ot">&lt;-</span> <span class="st">"Brunei"</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Congo"</span>] <span class="ot">&lt;-</span> <span class="st">"Republic of Congo"</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Côte d’Ivoire"</span>] <span class="ot">&lt;-</span> <span class="st">"Côte d'Ivoire"</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Dem. Rep. of the Congo"</span>] <span class="ot">&lt;-</span> <span class="st">"Democratic Republic of the Congo"</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Iran (Islamic Republic of)"</span>] <span class="ot">&lt;-</span> <span class="st">"Iran"</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Lao People's Dem. Rep."</span>] <span class="ot">&lt;-</span> <span class="st">"Laos"</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Micronesia (Fed. States of)"</span>] <span class="ot">&lt;-</span> <span class="st">"Micronesia"</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Netherlands (Kingdom of the)"</span>] <span class="ot">&lt;-</span> <span class="st">"The Netherlands"</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Republic of Korea"</span>] <span class="ot">&lt;-</span> <span class="st">"South Korea"</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Republic of Moldova"</span>] <span class="ot">&lt;-</span> <span class="st">"Moldova"</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Russian Federation"</span>] <span class="ot">&lt;-</span> <span class="st">"Russia"</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Syrian Arab Republic"</span>] <span class="ot">&lt;-</span> <span class="st">"Syria"</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"United Rep. of Tanzania"</span>] <span class="ot">&lt;-</span> <span class="st">"Tanzania"</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Venezuela (Boliv. Rep. of)"</span>] <span class="ot">&lt;-</span> <span class="st">"Venezuela"</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Viet Nam"</span>] <span class="ot">&lt;-</span> <span class="st">"Vietnam"</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Dem. People's Rep. Korea"</span>] <span class="ot">&lt;-</span> <span class="st">"North Korea"</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Country[physicians_expenditure<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"State of Palestine"</span>] <span class="ot">&lt;-</span> <span class="st">"Palestine"</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="co">#Create average physician rate by country from 2015-2021</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>physicians_expenditure <span class="sc">|&gt;</span> </span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;=</span> <span class="dv">2015</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">|&gt;</span> </span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_phy_rate =</span> <span class="fu">mean</span>(Physicians_per_1000, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="ot">-&gt;</span> physicians_expenditure_2015_2021</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Mortality Data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(cancer_mortality_2022, "cancer_mortality_2022.csv")</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cancer_mortality_2022 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"cancer_mortality_2022.csv"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>cancer_mortality_2022 <span class="sc">|&gt;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Label, Number, Crude.rate, Cumulative.risk) <span class="ot">-&gt;</span> cancer_mortality_2022_cut</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(cancer_mortality_2022_cut) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Country"</span>, <span class="st">"Mortality_Number"</span>, <span class="st">"Mortality_rate"</span>, <span class="st">"Mortality_cum_risk_74"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Incidence Data</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(cancer_incidence_2022, "cancer_incidence_2022.csv")</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>cancer_incidence_2022 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"cancer_incidence_2022.csv"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>cancer_incidence_2022 <span class="sc">|&gt;</span> </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Label, Number, Crude.rate, Cumulative.risk) <span class="ot">-&gt;</span> cancer_incidence_2022_cut</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(cancer_incidence_2022_cut) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Country"</span>, <span class="st">"Incidence_Number"</span>, <span class="st">"Incidence_rate"</span>, <span class="st">"Incidence_cum_risk_74"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge <span class="ot">&lt;-</span> <span class="fu">full_join</span>(cancer_incidence_2022_cut, cancer_mortality_2022_cut, <span class="at">by =</span> <span class="st">"Country"</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(mortality_incidence_merge, file = "mortality_incidence.csv", row.names = FALSE)</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">#Change country names:</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Bosnia Herzegovina"</span>] <span class="ot">&lt;-</span> <span class="st">"Bosnia and Herzegovina"</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Brunei Darussalam"</span>] <span class="ot">&lt;-</span> <span class="st">"Brunei"</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Congo, Democratic Republic of"</span>] <span class="ot">&lt;-</span> <span class="st">"Democratic Republic of the Congo"</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Congo, Republic of"</span>] <span class="ot">&lt;-</span> <span class="st">"Republic of Congo"</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"France (metropolitan)"</span>] <span class="ot">&lt;-</span> <span class="st">"France"</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"France, Guadeloupe"</span>] <span class="ot">&lt;-</span> <span class="st">"Guadeloupe"</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"France, La Réunion"</span>] <span class="ot">&lt;-</span> <span class="st">"Reunion"</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"France, Martinique"</span>] <span class="ot">&lt;-</span> <span class="st">"Martinique"</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"French Guyana"</span>] <span class="ot">&lt;-</span> <span class="st">"French Guiana"</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Gaza Strip and West Bank"</span>] <span class="ot">&lt;-</span> <span class="st">"Palestine"</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Iran (Islamic Republic of)"</span>] <span class="ot">&lt;-</span> <span class="st">"Iran"</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Korea (Democratic People Republic of)"</span>] <span class="ot">&lt;-</span> <span class="st">"North Korea"</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Republic of Korea"</span>] <span class="ot">&lt;-</span> <span class="st">"South Korea"</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Lao People's Democratic Republic"</span>] <span class="ot">&lt;-</span> <span class="st">"Laos"</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Russian Federation"</span>] <span class="ot">&lt;-</span> <span class="st">"Russia"</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Syrian Arab Republic"</span>] <span class="ot">&lt;-</span> <span class="st">"Syria"</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Tanzania, United Republic of"</span>] <span class="ot">&lt;-</span> <span class="st">"Tanzania"</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"The Republic of the Gambia"</span>] <span class="ot">&lt;-</span> <span class="st">"Gambia"</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Country[mortality_incidence_merge<span class="sc">$</span>Country <span class="sc">==</span> <span class="st">"Viet Nam"</span>] <span class="ot">&lt;-</span> <span class="st">"Vietnam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Merge averaged physician data with cancer data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cancer_inc_doctor_rate <span class="ot">&lt;-</span> <span class="fu">full_join</span>(physicians_expenditure_2015_2021, mortality_incidence_merge, <span class="at">by =</span> <span class="st">"Country"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#turn mortality rate into categorical</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>cancer_inc_doctor_rate<span class="sc">$</span>mortality_rate_categorical <span class="ot">&lt;-</span> <span class="fu">cut</span>(cancer_inc_doctor_rate<span class="sc">$</span>Mortality_rate, </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>, <span class="fl">341.3</span>),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0-50"</span>, <span class="st">"50-100"</span>, <span class="st">"100-150"</span>, <span class="st">"150-200"</span>, <span class="st">"200+"</span>),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">right =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#add year column to cancer/mortality dataset</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>mortality_incidence_merge<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="dv">2022</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>physicians_expenditure<span class="sc">$</span>Physicans_raw <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(physicians_expenditure<span class="sc">$</span>Physicans_raw)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>physicians_expenditure <span class="sc">|&gt;</span> </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;=</span> <span class="dv">2015</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">|&gt;</span> </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_phy_rate =</span> <span class="fu">mean</span>(Physicians_per_1000, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_phy_raw =</span> <span class="fu">mean</span>(Physicans_raw, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_pct_gdp =</span> <span class="fu">mean</span>(Pct_GDP, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_pct_domestic_spending =</span> <span class="fu">mean</span>(Pct_Domestic, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="ot">-&gt;</span> physicians_expenditure_2015_2021</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#Merge 2015-2021 averages with cancer data </span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022 <span class="ot">&lt;-</span> <span class="fu">full_join</span>(physicians_expenditure_2015_2021, mortality_incidence_merge, <span class="at">by =</span> <span class="st">"Country"</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(cancer_exp_phy_2015_2022)[<span class="fu">colnames</span>(cancer_exp_phy_2015_2022) <span class="sc">==</span> <span class="st">"Country"</span>] <span class="ot">&lt;-</span> <span class="st">"region"</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent <span class="ot">&lt;-</span> <span class="fu">countrycode</span>(cancer_exp_phy_2015_2022<span class="sc">$</span>region, <span class="at">origin =</span> <span class="st">"country.name"</span>, <span class="at">destination =</span> <span class="st">"continent"</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Antigua and Barbuda"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Bahamas"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Barbados"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Belize"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Canada"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Costa Rica"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Cuba"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Dominica"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Dominican Republic"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"El Salvador"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Grenada"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Guatemala"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Haiti"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Honduras"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Jamaica"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Mexico"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Nicaragua"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Panama"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Saint Kitts and Nevis"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Saint Lucia"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Saint Vincent &amp; Grenadines"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Trinidad and Tobago"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"United States of America"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Guadeloupe"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Martinique"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Puerto Rico"</span>] <span class="ot">&lt;-</span> <span class="st">"North America"</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Argentina"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Bolivia"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Brazil"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Chile"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Colombia"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Ecuador"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Guyana"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Paraguay"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Peru"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Suriname"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Uruguay"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Venezuela"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"French Guiana"</span>] <span class="ot">&lt;-</span> <span class="st">"South America"</span></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>continent[cancer_exp_phy_2015_2022<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Micronesia"</span>] <span class="ot">&lt;-</span> <span class="st">"Oceania"</span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022 <span class="sc">|&gt;</span> </span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(continent)) <span class="ot">-&gt;</span> cancer_exp_phy_2015_2022</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>mortality_rate_categorical <span class="ot">&lt;-</span> <span class="fu">cut</span>(cancer_exp_phy_2015_2022<span class="sc">$</span>Mortality_rate, </span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>                                                        <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>, <span class="fl">341.3</span>),</span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0-50"</span>, <span class="st">"50-100"</span>, <span class="st">"100-150"</span>, <span class="st">"150-200"</span>, <span class="st">"200+"</span>),</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">right =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>avg_phy_rate_categorical_2 <span class="ot">&lt;-</span> <span class="fu">cut</span>(cancer_exp_phy_2015_2022<span class="sc">$</span>avg_phy_rate, </span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">9</span>),</span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0-2"</span>, <span class="st">"2+"</span>),</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">right =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>avg_phy_rate_categorical_5 <span class="ot">&lt;-</span> <span class="fu">cut</span>(cancer_exp_phy_2015_2022<span class="sc">$</span>avg_phy_rate, </span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">9</span>),</span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0-1"</span>, <span class="st">"1-2"</span>, <span class="st">"2-3"</span>, <span class="st">"3-4"</span>, <span class="st">"4+"</span>),</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">right =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>avg_dom_spend_categorical_3 <span class="ot">&lt;-</span> <span class="fu">cut</span>(cancer_exp_phy_2015_2022<span class="sc">$</span>avg_pct_domestic_spending, </span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>),</span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0-10"</span>, <span class="st">"10-20"</span>, <span class="st">"20+"</span>),</span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">right =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>avg_dom_spend_categorical_6 <span class="ot">&lt;-</span> <span class="fu">cut</span>(cancer_exp_phy_2015_2022<span class="sc">$</span>avg_pct_domestic_spending, </span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>, <span class="dv">25</span>, <span class="dv">30</span>),</span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0-5"</span>, <span class="st">"5-10"</span>, <span class="st">"10-15"</span>, <span class="st">"15-20"</span>, <span class="st">"20-25"</span>, <span class="st">"25+"</span>),</span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">right =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>incidence_rate_categorical_7 <span class="ot">&lt;-</span> <span class="fu">cut</span>(cancer_exp_phy_2015_2022<span class="sc">$</span>Incidence_rate, </span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>, <span class="dv">600</span>, <span class="dv">1000</span>),</span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0-100"</span>, <span class="st">"100-200"</span>, <span class="st">"200-300"</span>, <span class="st">"300-400"</span>, <span class="st">"400-500"</span>, <span class="st">"500-600"</span>, <span class="st">"600+"</span>),</span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">right =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>incidence_rate_categorical_4 <span class="ot">&lt;-</span> <span class="fu">cut</span>(cancer_exp_phy_2015_2022<span class="sc">$</span>Incidence_rate, </span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">1000</span>),</span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0-100"</span>, <span class="st">"100-200"</span>, <span class="st">"200-300"</span>, <span class="st">"300+"</span>),</span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">right =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022<span class="sc">$</span>avg_gdp_categorical_3 <span class="ot">&lt;-</span> <span class="fu">cut</span>(cancer_exp_phy_2015_2022<span class="sc">$</span>avg_pct_gdp, </span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>),</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0-5"</span>, <span class="st">"5-10"</span>, <span class="st">"10+"</span>),</span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">right =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Change Names in world data</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Czech Republic"</span>] <span class="ot">&lt;-</span> <span class="st">"Czechia"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Swaziland"</span>] <span class="ot">&lt;-</span> <span class="st">"Eswatini"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Netherlands"</span>] <span class="ot">&lt;-</span> <span class="st">"The Netherlands"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Trinidad"</span>] <span class="ot">&lt;-</span> <span class="st">"Trinidad and Tobago"</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Tobago"</span>] <span class="ot">&lt;-</span> <span class="st">"Trinidad and Tobago"</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Turkey"</span>] <span class="ot">&lt;-</span> <span class="st">"Türkiye"</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"UK"</span>] <span class="ot">&lt;-</span> <span class="st">"United Kingdom"</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"USA"</span>] <span class="ot">&lt;-</span> <span class="st">"United States of America"</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Ivory Coast"</span>] <span class="ot">&lt;-</span> <span class="st">"Côte d'Ivoire"</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Antigua"</span>] <span class="ot">&lt;-</span> <span class="st">"Antigua and Barbuda"</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Barbuda"</span>] <span class="ot">&lt;-</span> <span class="st">"Antigua and Barbuda"</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Cape Verde"</span>] <span class="ot">&lt;-</span> <span class="st">"Cabo Verde"</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Saint Kitts"</span>] <span class="ot">&lt;-</span> <span class="st">"Saint Kitts and Nevis"</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Nevis"</span>] <span class="ot">&lt;-</span> <span class="st">"Saint Kitts and Nevis"</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Saint Vincent"</span>] <span class="ot">&lt;-</span> <span class="st">"Saint Vincent &amp; Grenadines"</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>world<span class="sc">$</span>region[world<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"Grenadines"</span>] <span class="ot">&lt;-</span> <span class="st">"Saint Vincent &amp; Grenadines"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_map</span>(<span class="at">data =</span> world, <span class="fu">aes</span>(<span class="at">map_id =</span> region), <span class="at">map =</span> world) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_map</span>(<span class="at">data =</span> cancer_exp_phy_2015_2022, <span class="fu">aes</span>(<span class="at">map_id =</span> region, <span class="at">fill =</span> incidence_rate_categorical_7), </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">map =</span> world)<span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x =</span> world<span class="sc">$</span>long, <span class="at">y =</span> world<span class="sc">$</span>lat)<span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cancer Incidence Rates 2022"</span>, </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill=</span><span class="st">"Incidence Rate</span><span class="sc">\n</span><span class="st">(per 100k)"</span>) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Reds"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">na.translate =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="results_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In this map, there are clear regional patterns surrounding the incidence rates of cancer. Much of the western world has very high cancer rates, with the United States, Canada, Australia, New Zealand, and much of northern and western Europe having more than 600 cases of cancer per 100,000 people. By contrast, most African countries have between 0 and 100 cases of cancer per 100,000 people. Asian and South American countries tend to fall somewhere in between these two extremes, though Japan has rates more similar to the West than to the rest of Asia. There are many reasons that could explain this disparity, which we will explore later. Some factors may have to do with lifestyle, or they may have to do with response bias. Do countries that have better medical infrastructure catch and report cancer at a higher rate? It is possible.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_map</span>(<span class="at">data =</span> world, <span class="fu">aes</span>(<span class="at">map_id =</span> region), <span class="at">map =</span> world) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_map</span>(<span class="at">data =</span> cancer_exp_phy_2015_2022, <span class="fu">aes</span>(<span class="at">map_id =</span> region, <span class="at">fill =</span> mortality_rate_categorical), </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">map =</span> world)<span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x =</span> world<span class="sc">$</span>long, <span class="at">y =</span> world<span class="sc">$</span>lat)<span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cancer Mortality Rates 2022"</span>, </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill=</span><span class="st">"Mortality Rate</span><span class="sc">\n</span><span class="st">(per 100,000)"</span>) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Reds"</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">na.translate =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="results_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Much like cancer incidence rates, the West tends to have higher levels of mortality than the rest of the world. However, it is not as stark a difference here. While Canada and almost all of Europe have mortality rates of at least 200 per 100,000 people, some Asian and South American countries have a disproportionately high mortality rate compared to the incidence rate. Most of Africa again has very low rates of death from cancer, though South Africa and Tunisia have higher rates than the rest of the continent.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cancer_exp_phy_2015_2022 <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(continent, Incidence_rate, Mortality_rate, avg_phy_rate, avg_pct_gdp, avg_pct_domestic_spending) <span class="ot">-&gt;</span> merged_subset</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(merged_subset) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Continent"</span>, <span class="st">"Incidence (per 100k)"</span>, <span class="st">"Mortality (per 100k)"</span>, <span class="st">"Physicians (per 1k)"</span>, <span class="st">"% GDP"</span>, <span class="st">"% Domestic Spending"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(merged_subset, <span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>, <span class="fu">aes</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">stroke =</span> <span class="dv">0</span>))<span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="results_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>To see which factors may influence cancer incidence and mortality rates in each country, we will look at the number of physicians per 1,000 residents, the percent of a country’s GDP that goes towards healthcare expenditure, and the percent of a country’s entire domestic spending that goes towards healthcare expenditure. Since we have incidence and mortality rates for the year 2022 and we have inconsistent data across countries for physician counts, GDP, and domestic spending, we will average the physician counts, GDP, and domestic spending across 2015-2021, which is the most recent data we have and the smallest range we can include that still encompasses most countries. It will not be a perfect tally, but it is the best estimate we can create given the data we have access to.</p>
+<p>We see in the above graph that incidence rate and mortality rate have a strong positive correlation (0.946), indicating that countries with higher rates of cancer also have higher rates of death from cancer. Interestingly, the incidence rate of cancer also has a positive correlation with the number of physicians operating in the country (0.785) and with the percentage of a countries money spent on healthcare (0.624 for GDP, 0.624 for domestic spending). While correlation does not equal causation, one potential reason for this is that with more investment and more doctors working in a country, there are more opportunities to find cancer. Mortality rate is also positively correlated with each of these three measures, though GDP spent and domestic spending are not as strongly correlated.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#scatterplot of incidence rate vs. doctor rate</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>cancer_exp_phy_2015_2022, <span class="fu">aes</span>(<span class="at">x=</span>avg_phy_rate, <span class="at">y=</span>Incidence_rate, <span class="at">color=</span><span class="fu">as.factor</span>((mortality_rate_categorical))), <span class="at">na.rm=</span> <span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Average Physician Rate (per 1000), 2015-2021"</span>, <span class="at">y=</span><span class="st">"Cancer Incidence Rate (per 100k), 2022"</span>, <span class="at">color =</span> <span class="st">"Cancer Mortality Rate</span><span class="sc">\n</span><span class="st">(per 100k)"</span>, <span class="at">title =</span> <span class="st">"Cancer Rates vs. Number of Physicians by Country"</span>)<span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"YlGnBu"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">na.translate =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="results_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking more closely at the relationship between cancer incidence rate and the number of physicians in a country, we can see that as a country has more physicians per 1,000 people, the rate of cancer increases. The data is more concentrated at the lower end of the spectrum - countries with almost no doctors also have almost no cancer reported. The data fans out as the number of physicians increases. At one extreme, once country (Cuba) has more than 8 physicians per 1,000 people and about 450 cancer cases per 100,000, while Japan has just 2.6 physicians per 1,000 people but a cancer rate of 800 per 100,000. We can also see clearly with color here that countries that have higher cancer rates and more physicians also have higher mortality rates, showing again just how correlated this data is.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cancer_exp_phy_2015_2022, <span class="fu">aes</span>(<span class="at">x=</span>avg_pct_domestic_spending, <span class="at">y=</span>Incidence_rate, <span class="at">color=</span>mortality_rate_categorical))<span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>continent, <span class="at">ncol =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">"Mortality Rate</span><span class="sc">\n</span><span class="st">(per 100k)"</span>, <span class="at">x=</span><span class="st">"% Domestic Spending"</span>, <span class="at">y=</span><span class="st">"Incidence Rate (per 100k)"</span>, </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Cancer Rates by Domestic Healthcare Spending"</span>) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"YlGnBu"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">na.translate =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.1</span>, <span class="at">color =</span> <span class="st">"black"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="results_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Europe is very apparently the standout continent. Most countries in Europe spend between 10 and 20% of their domestic spending on healthcare, have cancer rates of 400 to 800 people per 100,000, and have cancer mortality rates of 250+ per 100,000. This is far higher on average than any other continent. Africa falls on the other end of the extreme, with most countries having fewer than 200 cancer cases per 100,000 people, spending less than 10% of domestic spending on healthcare, and mostly having cancer mortality rates less than 100 per 100,000 people. Asian and North American countries show more variation across these three metrics. There are Asian countries with incidence rates as low as 58 and as high as 800 per 100,000 people, with mortality rates as low as 26 and as high as 339, and with domestic spending as low as 2% and as high as 23%. Interestingly, Japan is the highest in Asian country in all 3 of these categories. Also of note is how South American countries are similarly compact in their level of domestic spending as European countries, with almost all falling between 10% and 20%, yet their incidence and mortality rates are far lower than Europe’s. It goes to show that while there does appear to be a positive correlation domestic spending and incidence rates, there are clearly other factors in play too.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaic</span>(incidence_rate_categorical_4 <span class="sc">~</span> avg_phy_rate_categorical_2 <span class="sc">+</span> avg_gdp_categorical_3, </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">direction =</span> <span class="fu">c</span>(<span class="st">"v"</span>, <span class="st">"v"</span>, <span class="st">"h"</span>),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> cancer_exp_phy_2015_2022, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">highlighting_fill =</span> <span class="fu">brewer.pal</span>(<span class="dv">4</span>, <span class="st">"Reds"</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">rot_labels=</span><span class="dv">0</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">labeling_args =</span> <span class="fu">list</span>(<span class="at">set_varnames =</span> <span class="fu">c</span>(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">avg_phy_rate_categorical_2 =</span> <span class="st">"Physicians per 1k"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">incidence_rate_categorical_4 =</span> <span class="st">"Incidence Rate (per 100k)"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">avg_gdp_categorical_3 =</span> <span class="st">"% GDP Spending"</span>)),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> <span class="st">"Cancer Rates by GDP Spending and Doctors"</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex.main =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="results_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="1152"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking at how the cancer rates, amount of GDP spent on healthcare, and the number of physicians in the country, we can see some stark differences. Overwhelmingly, countries that spend less and have fewer doctors have lower rates of cancer. More than half of countries that spend less than 5% of their GDP and have 0 to 2 physicians per 1,000 people have lower than 100 cancer cases per 100,000. No country under these parameters has a cancer rate above 300 per 100,000. Notably, the limited number of countries that spend more than 10% of their GDP on healthcare but have 0 to 2 physicians per 1,000 people all have a cancer rate of less than 100. Contrarily, in countries with more than 2 physicians per 1,000 people, the cancer rates are much higher. On top of that, as these countries spend more of their GDP on healthcare, the cancer rates increase even more to the point that every single country that has more than 2 physicians per 1,000 people and spends more than 10% of their GDP has a cancer rate of 300 or more. The overwhelming majority of countries with 2 per 1,000 physicians that spend between 5-10% of their GDP also have cancer rates of more than 300 per 100,000. While this mosaic plot demonstrates a relationship between both GDP spending and cancer rates and number of physicians and cancer rate, it makes plain that the number of doctors has a much stronger relationship with cancer rates than the percent of a country’s GDP is spent on healthcare.</p>
 
 
 
