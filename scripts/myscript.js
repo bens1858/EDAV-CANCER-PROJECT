@@ -1,5 +1,4 @@
 
-
 // Upload data
 
 const rowConverter = function (d) {
@@ -17,14 +16,9 @@ const rowConverter = function (d) {
 
 d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/heads/main/d3_data2.csv", rowConverter)
   .then(function(data) {
+    
 
 // stuff that requires the loaded data
-
-  })
-  .catch(function(error) {
-
-// Create svg and initial bars
-
   const w = 400;
   const h = 300;
   const margin = {top: 25, right: 0, bottom: 25,
@@ -40,7 +34,7 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
                  {month: "Jun", value: 90}]
 
   const xScale = d3.scaleBand()
-      .domain(bardata.map(d => d.month))
+      .domain(data.map(d => d.region))
       .range([0, innerWidth])
       .paddingInner(.1);
 
@@ -76,13 +70,13 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
       .attr("id", "plot")
       .attr("transform", `translate (${margin.left}, ${margin.top})`)
     .selectAll("rect")
-      .data(bardata);
+      .data(data);
 
   bars.enter().append("rect")
-      .attr("x", d => xScale(d.month))
-      .attr("y", d => yScale(d.value))
+      .attr("x", d => xScale(d.region))
+      .attr("y", d => yScale(d.Incidence_rate))
       .attr("width", xScale.bandwidth())
-      .attr("height", d => innerHeight - yScale(d.value))
+      .attr("height", d => innerHeight - yScale(d.Incidence_rate))
       .attr("fill", "red");
 
 // add axes
@@ -97,3 +91,11 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
       .attr("transform", `translate (${margin.left}, ${margin.top})`)
       .call(yAxis);
 
+
+  })
+  .catch(function(error) {
+  
+// error handling  
+
+  
+  });
