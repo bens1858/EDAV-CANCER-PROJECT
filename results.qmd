@@ -501,3 +501,46 @@ mosaic(incidence_rate_categorical_4 ~ avg_phy_rate_categorical_2 + avg_gdp_categ
 ```
 Looking at how the cancer rates, amount of GDP spent on healthcare, and the number of physicians in the country, we can see some stark differences. Overwhelmingly, countries that spend less and have fewer doctors have lower rates of cancer. More than half of countries that spend less than 5% of their GDP and have 0 to 2 physicians per 1,000 people have lower than 100 cancer cases per 100,000. No country under these parameters has a cancer rate above 300 per 100,000. Notably, the limited number of countries that spend more than 10% of their GDP on healthcare but have 0 to 2 physicians per 1,000 people all have a cancer rate of less than 100. Contrarily, in countries with more than 2 physicians per 1,000 people, the cancer rates are much higher. On top of that, as these countries spend more of their GDP on healthcare, the cancer rates increase even more to the point that every single country that has more than 2 physicians per 1,000 people and spends more than 10% of their GDP has a cancer rate of 300 or more. The overwhelming majority of countries with 2 per 1,000 physicians that spend between 5-10% of their GDP also have cancer rates of more than 300 per 100,000. While this mosaic plot demonstrates a relationship between both GDP spending and cancer rates and number of physicians and cancer rate, it makes plain that the number of doctors has a much stronger relationship with cancer rates than the percent of a country's GDP is spent on healthcare. 
 
+
+
+
+```{r}
+#write.csv(OperationalPolicy_new, "OperationalPolicy_new.csv")
+OperationalPolicy_new <- read.csv("OperationalPolicy_new.csv")
+
+OperationalPolicy_new |> 
+  dplyr::filter(Period == 2021) |> 
+  dplyr::select(Location, Value) -> OperationalPolicy_condensed
+
+colnames(OperationalPolicy_condensed) <- c("region", "Operational_Policy")
+
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Bolivia (Plurinational State of)"] <- "Bolivia"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Congo"] <- "Republic of Congo"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Netherlands (Kingdom of the)"] <- "The Netherlands"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Syrian Arab Republic"] <- "Syria"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Venezuela (Bolivarian Republic of)"] <- "Venezuela"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Brunei Darussalam"] <- "Brunei"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Cote d'Ivoire"] <- "Côte d'Ivoire"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Democratic People's Republic of Korea"] <- "North Korea"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Iran (Islamic Republic of)"] <- "Iran"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Lao People's Democratic Republic"] <- "Laos"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Micronesia (Federated States of)"] <- "Micronesia"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Republic of Korea"] <- "South Korea"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Republic of Moldova"] <- "Moldova"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Russian Federation"] <- "Russia"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Saint Vincent and the Grenadines"] <- "Saint Vincent & Grenadines"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "United Kingdom of Great Britain and Northern Ireland"] <- "United Kingdom"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "United Republic of Tanzania"] <- "Tanzania"
+OperationalPolicy_condensed$region[OperationalPolicy_condensed$region == "Viet Nam"] <- "Vietnam"
+
+
+
+merge_d3 <- dplyr::full_join(cancer_exp_phy_2015_2022, OperationalPolicy_condensed, by = "region")
+merge_d3 |> 
+  dplyr::select(region, continent, Incidence_rate, Mortality_rate, avg_phy_rate, avg_pct_domestic_spending, avg_pct_gdp, Operational_Policy) -> d3_data
+
+d3_data$Operational_Policy[d3_data$Operational_Policy == "No response"] <- NA
+
+write.csv(d3_data, "d3_data2.csv")
+
+```
