@@ -158,5 +158,25 @@
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Results</span>"
     ]
+  },
+  {
+    "objectID": "d3graph.html",
+    "href": "d3graph.html",
+    "title": "4  Interactive graph",
+    "section": "",
+    "text": "4.1 Play around with different variables to see how many countries in each continent fit the parameters. Notice any trends?",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Interactive graph</span>"
+    ]
+  },
+  {
+    "objectID": "d3graph.html#play-around-with-different-variables-to-see-how-many-countries-in-each-continent-fit-the-parameters.-notice-any-trends",
+    "href": "d3graph.html#play-around-with-different-variables-to-see-how-many-countries-in-each-continent-fit-the-parameters.-notice-any-trends",
+    "title": "4  Interactive graph",
+    "section": "",
+    "text": "Cancer Incidence per 100k &gt;= 0\n\n \n\nCancer Mortality per 100k &gt;= 0\n\n \n\nPhysicians per 1k &gt;= 0\n\n \n\n% GDP on Healthcare &gt;= 0\n\n \n\n% Domestic Spending on Healthcare &gt;= 0",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Interactive graph</span>"
+    ]
   }
 ]
