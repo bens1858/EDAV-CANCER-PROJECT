@@ -1,4 +1,6 @@
 
+
+
 // Upload data
 
 const rowConverter = function (d) {
@@ -19,8 +21,8 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
     
 
 // stuff that requires the loaded data
-  const w = 400;
-  const h = 300;
+  const w = 1500;
+  const h = 500;
   const margin = {top: 25, right: 0, bottom: 25,
       left: 25};
   const innerWidth = w - margin.left - margin.right;
@@ -39,7 +41,7 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
       .paddingInner(.1);
 
   const yScale = d3.scaleLinear()
-      .domain([0, 100])
+      .domain([0, 900])
       .range([innerHeight, 0])
 
   const xAxis = d3.axisBottom()
@@ -48,12 +50,15 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
   const yAxis = d3.axisLeft()
       .scale(yScale);
 
+
+
 // add svg
 
   const svg = d3.select("body")
     .append("svg")
       .attr("width", w)
       .attr("height", h);
+  
 
 // add background rectangle
 
@@ -99,3 +104,8 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
 
   
   });
+  
+   var slider = d3.slider().min(0).max(400).ticks(10).showRange(true).value(6);
+
+   d3.select('#slider').call(slider);
+
