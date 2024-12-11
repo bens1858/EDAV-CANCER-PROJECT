@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.555">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>EDAV-CANCER-PROJECT - 2&nbsp; Data</title>
+<title>2&nbsp; Data – EDAV-CANCER-PROJECT</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -112,13 +112,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -222,7 +222,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This website is the National Center for Health Statistics website. This source collects data from the following source: the CDC’s National Health Interview Survey (NHIS). The CDC selects survey participants yearly and attempts to survey them via telephone or in person via representative.The CDC conducts the survey. Survey responses are conducted via telephone or in person by a census bureau representative. The data is in a csv file and is imported into R. The data is a percentage of the group represented in the tab. Based on the website, the survey is completed yearly and there are results for each year from 2019-2023. The dimensions of this data in R is a data frame of 380 rows by 5 total columns.To import the data, each individual parameter should be downloaded as a csv file from the website for this data set. Then, each csv file should be read into R using read_csv from the tidyverse package. The data should then be merged together using full_join and join_by = (Year,Group,Subgroup,Estimate,Flag).</p>
 <p>Link: <a href="https://nchsdata.cdc.gov/DQS/#nchs-home_any-type-of-cancer/-/employment-status/all-time-periods/2">NCHS Cancer Data</a></p>
 <p>WHO: Existence of Operational Policy/Strategy/Action Plan for Cancer</p>
-<p>The data seems to be collected per country and corresponds with a “yes” or “no” to the state “Existence of operational policy/strategy/action plan for cancer.” There is no indication of how the countries are contacted or what questions they are asked to deduce the results. The World Health Organization collected this data. There is no indication of how countries were contacted or which questions they were asked to result in answer of “yes” or “no” in this data set. The data is located in csv files. There is an individual csv file that contains each parameter that is in selection drop down of the associated link. The csv files from this source are merged using full_join from the tidyverse package in R. The survey results are “yes”,”no” or “no response” to the existence of operational policies,strategies or action plans for cancer. The data was last updated on April 25th, 2022. However, there is no statement of how often the data is updated. Since, there is data for 2021, 2019, 2017, 2015, and 2013, it seems that data is collected every two years. The next update may be for the year 2023 if the update trend continues. The merged data (all parameters combined) is a data frame with 970 rows by 34 columns. Some countries have a value of “No Response” and their action plan for cancer cannot be assessed for certain years. This data can be downloaded as a csv file per parameter on the associated link and then read into RStudio using the read_csv function from the tidyverse package. Each file needs to be individually imported into R using the read_csv function.</p>
+<p>The data seems to be collected per country and corresponds with a “yes” or “no” to the statement “Existence of operational policy/strategy/action plan for cancer.” There is no indication of how the countries are contacted or what questions they are asked to deduce the results. The World Health Organization collected this data. There is no indication of how countries were contacted or which questions they were asked to result in answer of “yes” or “no” in this data set. The data is located in csv files. There is an individual csv file that contains each parameter that is in selection drop down of the associated link. The csv files from this source are merged using full_join from the tidyverse package in R. The survey results are “yes”,”no” or “no response” to the existence of operational policies,strategies or action plans for cancer. The data was last updated on April 25th, 2022. However, there is no statement of how often the data is updated. Since, there is data for 2021, 2019, 2017, 2015, and 2013, it seems that data is collected every two years. The next update may be for the year 2023 if the update trend continues. The merged data (all parameters combined) is a data frame with 970 rows by 34 columns. Some countries have a value of “No Response” and their action plan for cancer cannot be assessed for certain years. This data can be downloaded as a csv file per parameter on the associated link and then read into RStudio using the read_csv function from the tidyverse package. Each file needs to be individually imported into R using the read_csv function.</p>
 <p>Link: <a href="https://www.who.int/data/gho/data/indicators/indicator-details/GHO/existence-of-operational-policy-strategy-action-plan-for-cancer">WHO Data on Policies for Cancer</a></p>
 </section>
 <section id="missing-value-analysis" class="level2" data-number="2.2">
@@ -286,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Analysis: The intended values of this survey are meant to be “yes” there exists a operational policy or plan for cancer or “no” there does not exist an operation policy or plan for cancer. Instead, there are some countries that are labeled as “No data received”, “Don’t Know”, “No response” or “88” all of which will be interpreted as there is no information from this country. There is a total of 43 data points from which there are no information. Some countries that have reported data for certain years, have not reported to this survey for other years.</p>
+<p>Analysis: The intended values of this survey are meant to be “yes” there exists a operational policy or plan for cancer or “no” there does not exist an operation policy or plan for cancer. Instead, there are some countries that are labeled as “No data received”, “Don’t Know”, “No response” or “88” all of which will be interpreted as there is no information from this country. There is a total of 43 data points from which there is no information. Some countries that have reported data for certain years, have not reported to this survey for other years.</p>
 
 
 </section>
@@ -327,18 +327,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -370,7 +359,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -378,7 +389,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
