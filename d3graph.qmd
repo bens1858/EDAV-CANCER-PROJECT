@@ -1,12 +1,60 @@
 # Interactive graph
 
+## Play around with different variables to see how many countries in each continent fit the parameters. Notice any trends?
+
 <style>
   * {
     font-family: sans-serif;
   }
+  
+  /* Style for the slider container */
+  #slider-container {
+    background-color: white; /* Set the background color of the container to white */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for a soft look */
+    margin-top: 20px;
+  }
+
+  /* Style for individual sliders */
+  #slider-container input[type="range"] {
+    background-color: white; /* Set the background of the slider to white */
+    border: 1px solid #ccc; /* Add a light border to the slider */
+    border-radius: 10px;
+  }
+
+  /* Style for the slider labels */
+  #slider-container p {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #333;
+  }
 </style> 
 
 <div id="plot">
+</div>
+
+<div id="slider-container">
+  <!-- First slider (Cancer Incidence per 100k) -->
+  <input id="slider1" type="range" min="0" max="840" step="1" value="0" style="width: 100%;">
+  <p id="sliderLabel1">Cancer Incidence per 100k >= 0</p>
+
+  <!-- Second slider (Cancer Mortality per 100k) -->
+  <input id="slider2" type="range" min="0" max="342" step="1" value="0" style="width: 100%;">
+  <p id="sliderLabel2">Cancer Mortality per 100k >= 0</p>
+
+  <!-- Third slider (Physicians per 1k) -->
+  <input id="slider3" type="range" min="0" max="8.2" step="0.01" value="0" style="width: 100%;">
+  <p id="sliderLabel3">Physicians per 1k >= 0</p>
+
+  <!-- Fourth slider (% GDP on Healthcare) -->
+  <input id="slider4" type="range" min="0" max="18.6" step="0.1" value="0" style="width: 100%;">
+  <p id="sliderLabel4">% GDP on Healthcare >= 0</p>
+
+  <!-- Fifth slider (% Domestic Spending on Healthcare) -->
+  <input id="slider5" type="range" min="0" max="27" step="0.1" value="0" style="width: 100%;">
+  <p id="sliderLabel5">% Domestic Spending on Healthcare >= 0</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>

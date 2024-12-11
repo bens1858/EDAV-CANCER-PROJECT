@@ -8,28 +8,27 @@ const rowConverter = function (d) {
     avg_pct_domestic_spending: +d.avg_pct_domestic_spending,
     avg_pct_gdp: +d.avg_pct_gdp,
     Operational_Policy: d.Operational_Policy
-    }
-};  
-
+  };
+};
 
 d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/heads/main/d3_data2.csv", rowConverter)
   .then(function(data) {
     
     // Set up dimensions
-    const w = 700;
-    const h = 375;  // Reduced height for the graph
-    const margin = {top: 40, right: 0, bottom: 50, left: 50};  // Further reduced bottom margin
+    const w = 750;  // Width of the plot
+    const h = 375;  // Height of the plot
+    const margin = {top: 40, right: 40, bottom: 60, left: 60};  // Default margin settings
     const innerWidth = w - margin.left - margin.right;
     const innerHeight = h - margin.top - margin.bottom;
     
     // Set up scales
     const xScale = d3.scaleBand()
-      .domain(data.map(d => d.continent))
+      .domain(data.map(d => d.continent).sort())  // Sort continents alphabetically
       .range([0, innerWidth])
       .paddingInner(0.1);
-    
+
     const yScale = d3.scaleLinear()
-      .domain([0, 100])  // Percentage from 0 to 100
+      .domain([0, 100])  // Percentage range from 0 to 100
       .range([innerHeight, 0]);
 
     // Create axes
@@ -40,7 +39,7 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
       .scale(yScale);
 
     // Create svg element
-    const svg = d3.select("body")
+    const svg = d3.select("div#plot")
       .append("svg")
       .attr("width", w)
       .attr("height", h);
@@ -65,28 +64,42 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
     // Add axes to svg
     svg.append("g")
       .attr("class", "xAxis")
-      .attr("transform", `translate (${margin.left}, ${h - margin.bottom})`)  // Adjusted bottom margin
-      .call(xAxis);
-    
+      .attr("transform", `translate (${margin.left}, ${h - margin.bottom})`)
+      .call(xAxis)
+      .selectAll("text")
+      .style("font-size", "14px")
+      .style("font-weight", "bold")
+      .style("fill", "black");
+
     svg.append("g")
       .attr("class", "yAxis")
       .attr("transform", `translate (${margin.left}, ${margin.top})`)
-      .call(yAxis);
+      .call(yAxis)
+      .selectAll("text")
+      .style("font-size", "14px")
+      .style("font-weight", "bold")
+      .style("fill", "black");
 
     // Add label for y-axis
     svg.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", margin.left - 40)
-      .attr("x", -innerHeight / 2)
+      .attr("y", margin.left - 50)
+      .attr("x", (-innerHeight / 2)-20)
       .attr("dy", "1em")
       .style("text-anchor", "middle")
+      .style("font-size", "16px")
+      .style("font-weight", "bold")
+      .style("fill", "black")
       .text("% of Countries");
 
-    // Add label for x-axis (Continent)
+    // Add label for x-axis
     svg.append("text")
       .attr("x", w / 2)
-      .attr("y", h - margin.bottom + 35)  // Adjusted for placement below the x-axis
+      .attr("y", h - margin.bottom + 45)
       .attr("text-anchor", "middle")
+      .style("font-size", "16px")
+      .style("font-weight", "bold")
+      .style("fill", "black")
       .text("Continent");
 
     // Create the plot container group
@@ -94,92 +107,36 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
       .attr("id", "plot")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    // Create the slider container (move underneath the graph and align left)
-    const sliderContainer = d3.select("body").append("div")
-      .style("width", `${innerWidth}px`)
-      .style("margin", "0")
-      .style("text-align", "left")  // Align sliders to the left
-      .style("margin-top", "20px");  // Space between graph and sliders
-
-    // First slider (Cancer Incidence per 100k)
-    const slider1 = sliderContainer.append("input")
-      .attr("type", "range")
-      .attr("min", 0)
-      .attr("max", 840)
-      .attr("step", 1)
-      .attr("value", 0)
-      .style("width", "100%");  // Make the slider as wide as the graph
-
-    // First slider label
-    const sliderLabel1 = sliderContainer.append("p")
-      .text(`Cancer Incidence per 100k >= ${slider1.node().value}`);
-
-    // Second slider (Cancer Mortality per 100k)
-    const slider2 = sliderContainer.append("input")
-      .attr("type", "range")
-      .attr("min", 0)
-      .attr("max", 342)
-      .attr("step", 1)
-      .attr("value", 0)
-      .style("width", "100%");  // Make the slider as wide as the graph
-
-    // Second slider label
-    const sliderLabel2 = sliderContainer.append("p")
-      .text(`Cancer Mortality per 100k >= ${slider2.node().value}`);
-
-    // Third slider (Physicians per 1k)
-    const slider3 = sliderContainer.append("input")
-      .attr("type", "range")
-      .attr("min", 0)
-      .attr("max", 8.2)
-      .attr("step", 0.01)
-      .attr("value", 0)
-      .style("width", "100%");  // Make the slider as wide as the graph
-
-    // Third slider label
-    const sliderLabel3 = sliderContainer.append("p")
-      .text(`Physicians per 1k >= ${slider3.node().value}`);
-
-    // Fourth slider (% GDP on Healthcare)
-    const slider4 = sliderContainer.append("input")
-      .attr("type", "range")
-      .attr("min", 0)
-      .attr("max", 18.6)
-      .attr("step", 0.1)
-      .attr("value", 0)
-      .style("width", "100%");  // Make the slider as wide as the graph
-
-    // Fourth slider label
-    const sliderLabel4 = sliderContainer.append("p")
-      .text(`% GDP on Healthcare >= ${slider4.node().value}`);
-
-    // Fifth slider (% Domestic Spending on Healthcare)
-    const slider5 = sliderContainer.append("input")
-      .attr("type", "range")
-      .attr("min", 0)
-      .attr("max", 27)
-      .attr("step", 0.1)
-      .attr("value", 0)
-      .style("width", "100%");  // Make the slider as wide as the graph
-
-    // Fifth slider label
-    const sliderLabel5 = sliderContainer.append("p")
-      .text(`% Domestic Spending on Healthcare >= ${slider5.node().value}`);
+    // Select the sliders from the DOM
+    const slider1 = document.getElementById("slider1");
+    const sliderLabel1 = document.getElementById("sliderLabel1");
+    
+    const slider2 = document.getElementById("slider2");
+    const sliderLabel2 = document.getElementById("sliderLabel2");
+    
+    const slider3 = document.getElementById("slider3");
+    const sliderLabel3 = document.getElementById("sliderLabel3");
+    
+    const slider4 = document.getElementById("slider4");
+    const sliderLabel4 = document.getElementById("sliderLabel4");
+    
+    const slider5 = document.getElementById("slider5");
+    const sliderLabel5 = document.getElementById("sliderLabel5");
 
     // Function to update the plot based on all five slider values
     function updatePlot() {
-      const threshold1 = +slider1.node().value; // Get the value of the first slider (Cancer Incidence)
-      const threshold2 = +slider2.node().value; // Get the value of the second slider (Cancer Mortality)
-      const threshold3 = +slider3.node().value; // Get the value of the third slider (Physicians per 1k)
-      const threshold4 = +slider4.node().value; // Get the value of the fourth slider (% GDP on Healthcare)
-      const threshold5 = +slider5.node().value; // Get the value of the fifth slider (% Domestic Spending on Healthcare)
+      const threshold1 = +slider1.value; // Get the value of the first slider (Cancer Incidence)
+      const threshold2 = +slider2.value; // Get the value of the second slider (Cancer Mortality)
+      const threshold3 = +slider3.value; // Get the value of the third slider (Physicians per 1k)
+      const threshold4 = +slider4.value; // Get the value of the fourth slider (% GDP on Healthcare)
+      const threshold5 = +slider5.value; // Get the value of the fifth slider (% Domestic Spending on Healthcare)
 
       // Update the slider labels
-      sliderLabel1.text(`Cancer Incidence per 100k >= ${threshold1}`);
-      sliderLabel2.text(`Cancer Mortality per 100k >= ${threshold2}`);
-      sliderLabel3.text(`Physicians per 1k >= ${threshold3}`);
-      sliderLabel4.text(`% GDP on Healthcare >= ${threshold4}`);
-      sliderLabel5.text(`% Domestic Spending on Healthcare >= ${threshold5}`);
+      sliderLabel1.textContent = `Cancer Incidence per 100k >= ${threshold1}`;
+      sliderLabel2.textContent = `Cancer Mortality per 100k >= ${threshold2}`;
+      sliderLabel3.textContent = `Physicians per 1k >= ${threshold3}`;
+      sliderLabel4.textContent = `% GDP on Healthcare >= ${threshold4}`;
+      sliderLabel5.textContent = `% Domestic Spending on Healthcare >= ${threshold5}`;
 
       // Filter data based on all five slider values and exclude any row with NA or invalid data
       const filteredData = data.filter(d => {
@@ -209,75 +166,93 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
         ).length;
 
         return {
-          percentage: (v.length / validCountries) * 100,  // Calculate percentage
-          rawCount: v.length  // Raw count of valid countries
+          percentage: (v.length / validCountries) * 100,  // Calculate percentage of countries for each continent
+          rawCount: v.length  // Store raw count of countries
         };
       }, d => d.continent);
 
-      // Join the filtered data to the bars and update
-      const bars = plotGroup.selectAll("rect")
-        .data(continentData, d => d[0]);
+      // Sort the data alphabetically by continent
+      continentData.sort((a, b) => d3.ascending(a[0], b[0]));
 
-      // Add new bars for newly added continents or thresholds
-      bars.enter().append("rect")
-        .attr("x", d => xScale(d[0]))
-        .attr("y", d => yScale(d[1].percentage))  // Height based on percentage
-        .attr("width", xScale.bandwidth())
-        .attr("height", d => innerHeight - yScale(d[1].percentage))
-        .attr("fill", "lightcoral");
+      // Update the plot bars
+      plotGroup.selectAll(".bar")
+        .data(continentData)
+        .join(
+          enter => enter.append("rect")
+            .attr("class", "bar")
+            .attr("x", d => xScale(d[0]))
+            .attr("y", d => yScale(d[1].percentage))
+            .attr("width", xScale.bandwidth())
+            .attr("height", d => innerHeight - yScale(d[1].percentage))
+            .style("fill", "#ff6666"),
+          update => update
+            .attr("x", d => xScale(d[0]))
+            .attr("y", d => yScale(d[1].percentage))
+            .attr("width", xScale.bandwidth())
+            .attr("height", d => innerHeight - yScale(d[1].percentage))
+        );
 
-      // Update existing bars (transition to new heights)
-      bars.transition()
-        .duration(500)
-        .attr("x", d => xScale(d[0]))
-        .attr("y", d => yScale(d[1].percentage))  // Height based on percentage
-        .attr("width", xScale.bandwidth())
-        .attr("height", d => innerHeight - yScale(d[1].percentage));
-
-      // Remove any bars that no longer have data
-      bars.exit().remove();
-
-      // Add or update labels for the bars to show the raw count
-      const labels = plotGroup.selectAll("text")
-        .data(continentData, d => d[0]);
-
-      // Add new labels
-      labels.enter().append("text")
-        .attr("x", d => xScale(d[0]) + xScale.bandwidth() / 2)
-        .attr("y", d => yScale(d[1].percentage) - 5)  // Position text just above the bar
-        .attr("text-anchor", "middle")
-        .text(d => d[1].rawCount);  // Show the raw number on the bar
-
-      // Update existing labels
-      labels.transition()
-        .duration(500)
-        .attr("x", d => xScale(d[0]) + xScale.bandwidth() / 2)
-        .attr("y", d => yScale(d[1].percentage) - 5)
-        .text(d => d[1].rawCount);  // Show the raw number on the bar
-
-      // Remove labels that no longer have data
-      labels.exit().remove();
-
-      // Add annotation text at the bottom left corner
-      svg.append("text")
-        .attr("x", 0)  // Adjusted for the left margin
-        .attr("y", 370)  // Adjusted to move it up slightly from the bottom
-        .attr("text-anchor", "start")  // Align text to the left
-        .style("font-size", "10px")  // Smaller font size
-        .style("font-style", "italic")
-        .text("*Bar labels represent # of countries");
+      // Add raw number of countries as labels on the bars
+      plotGroup.selectAll(".label")
+        .data(continentData)
+        .join(
+          enter => enter.append("text")
+            .attr("class", "label")
+            .attr("x", d => xScale(d[0]) + xScale.bandwidth() / 2)
+            .attr("y", d => yScale(d[1].percentage) - 5)
+            .attr("text-anchor", "middle")
+            .style("font-size", "12px")
+            .style("font-weight", "bold")
+            .style("fill", "black")
+            .text(d => d[1].rawCount),  // Display raw number of countries
+          update => update
+            .attr("x", d => xScale(d[0]) + xScale.bandwidth() / 2)
+            .attr("y", d => yScale(d[1].percentage) - 5)
+            .text(d => d[1].rawCount)
+        );
     }
 
-    // Listen for changes to any slider and update the plot
-    slider1.on("input", updatePlot);
-    slider2.on("input", updatePlot);
-    slider3.on("input", updatePlot);
-    slider4.on("input", updatePlot);
-    slider5.on("input", updatePlot);
+    // Add gridlines for y-axis
+    const yGrid = d3.axisLeft(yScale)
+      .tickSize(-innerWidth)
+      .tickFormat("");
 
-    // Initial plot update
+    svg.append("g")
+      .attr("class", "yGrid")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`)
+      .call(yGrid)
+      .style("stroke", "#ccc")
+      .style("stroke-width", 0.5);
+
+    // Initialize the plot on load
     updatePlot();
-  })
-  .catch(function(error) {
-    console.error("Error loading data:", error);
+
+    // Event listeners for each slider
+    slider1.addEventListener("input", updatePlot);
+    slider2.addEventListener("input", updatePlot);
+    slider3.addEventListener("input", updatePlot);
+    slider4.addEventListener("input", updatePlot);
+    slider5.addEventListener("input", updatePlot);
+
+    // Add annotation for bar labels
+    svg.append("text")
+      .attr("x", 5)
+      .attr("y", 370)
+      .style("font-size", "10px")
+      .style("font-style", "italic")
+      .style("fill", "black")
+      .text("*Bar labels represent # of countries");
+
+    // Add additional annotation text with line break
+    svg.append("text")
+      .attr("x", 512)
+      .attr("y", 360)
+      .style("font-size", "10px")
+      .style("font-style", "italic")
+      .style("fill", "black")
+      .text("*ChatGPT was utilized in the production of this code")
+      .append("tspan")
+      .attr("x", 595)
+      .attr("dy", "12")  // Create line break
+      .text("as allowed by project instructions");
   });
