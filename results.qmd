@@ -597,52 +597,16 @@ One limitation of this data is that we are comparing the estimates across differ
 
 [Link to US Cancer Estimates by Group](https://nchsdata.cdc.gov/DQS/#nchs-home_any-type-of-cancer/-/employment-status/all-time-periods/2)
 
-## How do cancer estimate rates vary by group in the US from 2019-2023?
+
+## How do estimated cancer rates compare by group and subgroup in the US from 2019-2023?
 
 ```{r}
 #| message: FALSE
-library(dplyr)
-library(forcats)
-library(ggplot2)
-library(readr)
-library(stringr)
-library(tibble)
-library(tidyr)
-
-
-CDC_CancerData_groups3 <- CDC_AllCancerData |>mutate(Subgroup = ifelse(Group== "Health insurance coverage: 65 years and older", paste(Subgroup,"(Above 65yo)"), ifelse(Group =="Health insurance coverage: Younger than 65 years", paste(Subgroup, "(Below 65yo)"), Subgroup)))|> dplyr::select(Group, Subgroup,Estimate,Year)|>pivot_wider(names_from=Year,values_from = Estimate)|>na.omit()|>rename(Y2019="2019",Y2020="2020",Y2021="2021",Y2022="2022",Y2023="2023")|>dplyr::select(Group,Y2019,Y2020,Y2021,Y2022,Y2023)
-
-
-parcoords::parcoords(CDC_CancerData_groups3, 
-          rownames = FALSE,    
-          brushMode = "1D-axes-multi",    
-          reorderable = TRUE,  
-          alphaOnBrushed = 0.1, 
-          autoresize = TRUE,
-          queue = TRUE,
-          color = "red",
-          margin = list(left = 225), elementId = "new1")
-#pc
-```
-
-We are able to check which Groups have subgroups that differ the most in this parallel coordinates. While the groups associated with cancer rates above 15% does not contain all subgroups within those groups, we can conclude that no group wholely correlates to higher rates of cancer.  
-
-[Link to US Cancer Estimates by Group](https://nchsdata.cdc.gov/DQS/#nchs-home_any-type-of-cancer/-/employment-status/all-time-periods/2)
-
-## How do estimated cancer rates compare by subgroup in the US from 2019-2023?
-
-```{r}
-#| message: FALSE
+#| fig-width: 10
+#| fig-height: 10
 library(parcoords)
-library(dplyr)
-library(forcats)
-library(ggplot2)
-library(readr)
-library(stringr)
-library(tibble)
-library(tidyr)
 
-CDC_CancerData_groups4 <- CDC_AllCancerData |>mutate(Subgroup = ifelse(Group== "Health insurance coverage: 65 years and older", paste(Subgroup,"(Above 65yo)"), ifelse(Group =="Health insurance coverage: Younger than 65 years", paste(Subgroup, "(Below 65yo)"), Subgroup)))|> dplyr::select(Group, Subgroup,Estimate,Year)|>pivot_wider(names_from=Year,values_from = Estimate)|>na.omit()|>rename(Y2019="2019",Y2020="2020",Y2021="2021",Y2022="2022",Y2023="2023")|>dplyr::select(Subgroup,Y2019,Y2020,Y2021,Y2022,Y2023)
+CDC_CancerData_groups4 <- CDC_AllCancerData |>mutate(Subgroup = ifelse(Group== "Health insurance coverage: 65 years and older", paste(Subgroup,"(Above 65yo)"), ifelse(Group =="Health insurance coverage: Younger than 65 years", paste(Subgroup, "(Below 65yo)"), Subgroup)))|> dplyr::select(Group, Subgroup,Estimate,Year)|>pivot_wider(names_from=Year,values_from = Estimate)|>na.omit()|>rename(Y2019="2019",Y2020="2020",Y2021="2021",Y2022="2022",Y2023="2023")|>dplyr::select(Group, Subgroup,Y2019,Y2020,Y2021,Y2022,Y2023)|> filter(Group %in% c("Race","Sex","Age groups with 65 years and older","Region", "Urbanicity","Poverty level","Employment status", "Disability status")) |>mutate(Subgroup = ifelse(Subgroup=="American Indian and Alaska Native and White", "AmInd, AlsNat",ifelse(Subgroup=="Medium and small metro","Med/Sm Metro", ifelse(Subgroup=="Nonmetropolitan","Nonmetro",ifelse(Subgroup=="Large central metro", "Lg. Central Metro", ifelse(Subgroup=="Large fringe metro","Lg. Fringe Metro",ifelse(Subgroup == "65 years and older", ">65 years",ifelse(Subgroup =="<100% FPL", "Low FPL",ifelse(Subgroup == "≥200% FPL", "High FPL", ifelse(Subgroup == "100% to <200% FPL","Mid FPL",ifelse(Subgroup == "Not employed but has worked previously", "Unemployed",ifelse(Subgroup == "Not employed and has never worked", "Never Employed" ,Subgroup ))))))))))))|>mutate(Group = ifelse (Group == "Age groups with 65 years and older", "Age Groups", Group))
 
 
 parcoords(CDC_CancerData_groups4, 
@@ -652,33 +616,20 @@ parcoords(CDC_CancerData_groups4,
           alphaOnBrushed = 0.1, 
           autoresize = TRUE,
           queue = TRUE,
-          color = "blue",
-          margin = list(left = 225),
+          color = "red",
+          margin = list(left = 150),
           elementId="new2")
 
 
 
 ```
 
-By plotting all subgroups on the parallel coordinates plot, we can identify which subgroups have which estimate percent per year for cancer. Additionally, we are able to see that for most subgroups, the cancer rate stays the same across the sample years. We only see a change in cancer rate for the Alaska Native and White, health insurance subgroups and without disability subgroups.
+Part of our research questions were to investigate cancer rates among Rave, Poverty Level, Sex, Disability Status, Age Groups, Employment Status, Region and Urbanicity. 
 
-Subgroups that have above 20% cancer rates are the 65 and older age group, the 65-74 age group, the 75 and older age group, Nedicare Advantage age group above(above 65 years old), medicare only (above 65 years old), other coverage (above 65 years old), private insurance (above 65 years of age) and widowed subgroups. The age groups in this range are typically older which tends to correlate with higher estimates of cancer.
+There appear to be minimal differences in subgroup cancer estimates in the following groups: Urbanicity, Sex, Region and Poverty level.
 
-Subgroups that have between 15%-20% are the American Indian/Alaska Native/White, Medicare and Medicaid (above 65 years of age), not employed, not employed but has worked previously, veteran and with disability. These subgroups seem to not be correlated with age altogether. It is possible that there is overlap between the not employed or not employed but has worked previously and other subgroups in this category such as veteran or with disability.
-
-[Link to US Cancer Estimates by Group](https://nchsdata.cdc.gov/DQS/#nchs-home_any-type-of-cancer/-/employment-status/all-time-periods/2)
-
-## How do the estimated cancer rates compare across the Education, Employment Status and Poverty Level groups from 2019-2023?
-
-```{r}
-#| fig-height: 10
-#| fig-width: 10
-AllCancerData_lumps_new_4 <- AllCancerData_lumps |> filter(Group == c("Education","Employment status", "Poverty level")) 
-
-pairs(table(AllCancerData_lumps_new_4[,c(1,3,6)]),highlighting=2)
-```
-
-To begin analyzing the differences among groups and their respective cancer rates, we chose to look at the difference in proportions of Education, Employment Status and Poverty Level and the corresponding cancer estimate level across years. We see that more education subgroups are associated with the 10-20% cancer mid bin as opposed to the low or less than 10% cancer rate bin. The employment status groups generally have the same proportion in the mid and low estimate levels and there seem to be no high or highest estimate levels in these groups. We also see that for some years, there are different proportions of responses in each group - indicating that we do not have the same subgroups responding over the years. The Education group has more mid estimates as opposed to the employment status and poverty level groups. It would be interesting if the education group could be divided into their respective employment status group.
+Age groups are greatly distributed among the cancer rates that they have. While within each age subgroup, the cancer estimate remains relatively the same, as age increases, the estimated cancer rate in that subgroup increases. In the Race group, the White and American Indian, Alaska Native and White subgroups have higher cancer rates than Asian only or Black only. It would need to be investigated if the sampled population have different accesses to health care or if this is a result of systemic policies in the health care system. Those who are in the unemployed (has worked previously) and not employed categories have higher rates of cancer than those in the never employed, full-time and employed categories. The difference between not employed and unemployed (worked previously) is unclear in the data source. The individuals who have a a disability are reported to have the double the cancer estimate as the individuals without a disability. 
 
 [Link to US Cancer Estimates by Group](https://nchsdata.cdc.gov/DQS/#nchs-home_any-type-of-cancer/-/employment-status/all-time-periods/2)
+
 
