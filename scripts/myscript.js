@@ -15,9 +15,9 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
   .then(function(data) {
     
     // Set up dimensions
-    const w = 750;  // Width of the plot
-    const h = 375;  // Height of the plot
-    const margin = {top: 40, right: 40, bottom: 60, left: 60};  // Default margin settings
+    const w = 750;
+    const h = 375;
+    const margin = {top: 40, right: 40, bottom: 60, left: 60};
     const innerWidth = w - margin.left - margin.right;
     const innerHeight = h - margin.top - margin.bottom;
     
@@ -28,7 +28,7 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
       .paddingInner(0.1);
 
     const yScale = d3.scaleLinear()
-      .domain([0, 100])  // Percentage range from 0 to 100
+      .domain([0, 100])
       .range([innerHeight, 0]);
 
     // Create axes
@@ -253,6 +253,6 @@ d3.csv("https://raw.githubusercontent.com/bens1858/EDAV-CANCER-PROJECT/refs/head
       .text("*ChatGPT was utilized in the production of this code")
       .append("tspan")
       .attr("x", 595)
-      .attr("dy", "12")  // Create line break
+      .attr("dy", "12")
       .text("as allowed by project instructions");
   });
